@@ -1,5 +1,5 @@
-// RTSPæœåŠ¡å™¨Demo
-
+// RTSP·şÎñÆ÷Demo
+#include "rtsp_svr.h"
 #include "xop/RtspServer.h"
 #include "net/NetInterface.h"
 #include <thread>
@@ -33,7 +33,7 @@ private:
 
 void snedFrameThread(xop::RtspServer* rtspServer, xop::MediaSessionId sessionId, H264File* h264File);
 
-int main(int argc, char **argv)
+int rtsp_file(int argc, char **argv)
 {	
     if(argc != 2)
     {
@@ -66,7 +66,7 @@ int main(int argc, char **argv)
 
     std::cout << "URL: " <<rtspUrl << std::endl;
 
-    eventLoop->loop(); //ä¸»çº¿ç¨‹è¿è¡Œ RtspServer 
+    eventLoop->loop(); //Ö÷Ïß³ÌÔËĞĞ RtspServer 
 
     getchar();
     return 0;

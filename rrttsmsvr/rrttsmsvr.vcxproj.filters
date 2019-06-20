@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="rtsp">
+      <UniqueIdentifier>{6efa36b3-7793-4d47-8f5a-4baa1760bcd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net">
+      <UniqueIdentifier>{13f232ae-5b6a-4628-9eac-ab9538d6d582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="xop">
+      <UniqueIdentifier>{5056233c-08de-438f-ba84-e86971961a0a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="rrttsmsvr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\example\rtsp_h264_file.cpp">
+      <Filter>rtsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\example\rtsp_pusher.cpp">
+      <Filter>rtsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\example\rtsp_server.cpp">
+      <Filter>rtsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\Acceptor.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\BufferReader.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\BufferWriter.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\EpollTaskScheduler.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\EventLoop.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\Logger.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\MemoryManager.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\NetInterface.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\Pipe.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\SelectTaskScheduler.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\SocketUtil.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\TaskScheduler.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\TcpConnection.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\TcpServer.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\TcpSocket.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\Timer.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\net\Timestamp.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\AACSource.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\G711ASource.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\H264Parser.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\H264Source.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\H265Source.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\MediaSession.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\RtpConnection.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\RtspConnection.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\RtspMessage.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\RtspPusher.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\xop\RtspServer.cpp">
+      <Filter>xop</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\net\Acceptor.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\BufferReader.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\BufferWriter.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\Channel.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\EpollTaskScheduler.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\EventLoop.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\log.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\Logger.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\MemoryManager.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\NetInterface.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\Pipe.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\RingBuffer.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\SelectTaskScheduler.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\Socket.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\SocketUtil.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\TaskScheduler.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\TcpConnection.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\TcpServer.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\TcpSocket.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\ThreadSafeQueue.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\Timer.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\net\Timestamp.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\AACSource.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\G711ASource.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\H264Parser.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\H264Source.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\H265Source.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\media.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\MediaSession.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\MediaSource.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\rtp.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\RtpConnection.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\rtsp.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\RtspConnection.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\RtspMessage.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\RtspPusher.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\xop\RtspServer.h">
+      <Filter>xop</Filter>
+    </ClInclude>
+    <ClInclude Include="rtsp_svr.h">
+      <Filter>rtsp</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

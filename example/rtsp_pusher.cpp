@@ -1,5 +1,5 @@
 ﻿// RTSP推流器Demo, 目前只支持TCP推流, 在EasyDarwin下测试通过
-
+#include "rtsp_svr.h"
 #include "xop/RtspPusher.h"
 #include <thread>
 #include <memory>
@@ -10,7 +10,7 @@
 
 void snedFrameThread(xop::RtspPusher* rtspPusher, xop::MediaSessionId sessionId);
 
-int main(int argc, char **argv)
+int rtsp_pusher(int argc, char **argv)
 {	
     std::shared_ptr<xop::EventLoop> eventLoop(new xop::EventLoop());  
     xop::RtspPusher rtspPusher(eventLoop.get());  //创建一个RTSP推流器

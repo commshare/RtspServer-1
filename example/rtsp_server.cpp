@@ -1,5 +1,5 @@
 ﻿// RTSP服务器Demo
-
+#include "rtsp_svr.h"
 #include "xop/RtspServer.h"
 #include "net/NetInterface.h"
 #include <thread>
@@ -9,7 +9,7 @@
 
 void snedFrameThread(xop::RtspServer* rtspServer, xop::MediaSessionId sessionId, int& clients);
 
-int main(int argc, char **argv)
+int startRtspServer(int argc, char **argv)
 {	
     int clients = 0; // 记录当前客户端数量
     std::string ip = "127.0.0.1";//xop::NetInterface::getLocalIPAddress(); //获取网卡ip地址
