@@ -73,19 +73,21 @@ void TcpConnection::handleRead()
 {
     if (_isClosed)
         return;
-
+	//从socket读取数据，现在改成zl的全读出来
     int ret = _readBufferPtr->readFd(_channelPtr->fd());
     if (ret <= 0)
     {
+	  FLOG()<<"READ NO DATA, CLOSE ";
         this->handleClose();
         return;
     }
-
+	//具体的connection 去读刚刚读到的数据
      if (_readCB)
      {
         _taskScheduler->addTriggerEvent([this]{   
             if(_readBufferPtr->size() > 0)
-            {                           
+            {   
+			  //回调给rtmp
                 bool ret = _readCB(shared_from_this(), *_readBufferPtr);
                 if (false == ret)
                 {

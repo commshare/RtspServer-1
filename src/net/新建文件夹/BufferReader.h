@@ -9,36 +9,7 @@
 #include <string>
 #include <algorithm>  
 #include <memory>  
-#include <mutex>
 
-#include "zlm/Buffer.h"
-namespace toolkit
-{
-
-  template <class Mtx = recursive_mutex>
-  class MutexWrapper {
-  public:
-	MutexWrapper(bool enable) {
-	  _enable = enable;
-	}
-	~MutexWrapper() {}
-
-	inline void lock() {
-	  if (_enable) {
-		_mtx.lock();
-	  }
-	}
-	inline void unlock() {
-	  if (_enable) {
-		_mtx.unlock();
-	  }
-	}
-  private:
-	bool _enable;
-	Mtx _mtx;
-  };
-
-}
 namespace xop
 {
     
@@ -51,9 +22,6 @@ uint16_t readUint16LE(char* data);
     
 class BufferReader
 {
-public:
-  //接收数据回调
-  typedef function<void(const toolkit::Buffer::Ptr &buf, struct sockaddr *addr, int addr_len)> onReadCB;
 public:	
 	static const uint32_t kInitialSize = 4096; //rtmp 4096
     BufferReader(uint32_t initialSize = kInitialSize);
@@ -138,16 +106,6 @@ private:
     static const char kCRLF[];
     static const uint32_t MAX_BYTES_PER_READ = 4096;
     static const uint32_t MAX_BUFFER_SIZE = 10240*100;
-private:
-  int onRead(int sockfdk, bool isUdp);
-  void setOnRead(const onReadCB &cb);
-
-private:
-  atomic<bool> _enableRecv;
-  toolkit::BufferRaw::Ptr _readBuffer;
-  onReadCB _readCB;
-  toolkit::MutexWrapper<recursive_mutex> _mtx_event;
-
 };
 
 }

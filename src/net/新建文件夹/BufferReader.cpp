@@ -4,12 +4,7 @@
 #include "BufferReader.h"
 #include "Socket.h"
 #include <cstring>
-#include "net/Logger.h"
-
-#define LOCK_GUARD(mtx) lock_guard<decltype(mtx)> lck(mtx)
-
-#define USE_RR_RTMP 1
-
+ 
 using namespace xop;
 
 //for rtmp begin
@@ -61,70 +56,15 @@ BufferReader::BufferReader(uint32_t initialSize)
     : _buffer(new std::vector<char>(initialSize))
 {
 	_buffer->resize(initialSize);
-
-	//默认服务器端
-	_enableRecv = true;
-
 }	
 
 BufferReader::~BufferReader()
 {
 	
 }
-//返回0，啥都没读到
-int BufferReader::onRead(int sockfd, bool isUdp) {
-  int ret = 0;
-  int sock = sockfd;
-  if (!_readBuffer) {
-	_readBuffer = std::make_shared<toolkit::BufferRaw>(isUdp ? 1600 : 128 * 1024);
-  }
-  int nread = 0;
-  struct sockaddr peerAddr;
-  socklen_t len = sizeof(struct sockaddr);
-  while (_enableRecv) {
-	do {
-	  nread = recvfrom(sock, _readBuffer->data(), _readBuffer->getCapacity() - 1, 0, &peerAddr, &len);
-	} while (-1 == nread && UV_EINTR == get_uv_error(true));
 
-	if (nread == 0) {
-	  if (!isUdp) {
-		//emitErr(SockException(Err_eof, "end of file"));
-		FLOG("====EOF ======");
-	  }
-	  return ret;
-	}
-
-	if (nread == -1) {
-	  if (get_uv_error(true) != UV_EAGAIN) {
-		//onError(pSock);
-		FLOG() << " ===UV_EAGAIN ERR !!!";
-    }
-	  return ret;
-}
-	ret += nread;
-	_readBuffer->data()[nread] = '\0';
-	_readBuffer->setSize(nread);
-
-	//LOCK_GUARD(_mtx_event);
-	//_readCB(_readBuffer, &peerAddr, len);
-	}
-  return 0;
-}
-void BufferReader::setOnRead(const onReadCB &cb) {
-  LOCK_GUARD(_mtx_event);
-  if (cb) {
-	_readCB = cb;
-  }
-  else {
-	_readCB = [](const toolkit::Buffer::Ptr &buf, struct sockaddr *, int) {
-	  WarnL << "Socket not set readCB";
-	};
-  }
-}
 int BufferReader::readFd(int sockfd)
 {	
-#if USE_RR_RTMP
-#else
     uint32_t size = writableBytes();
     if(size < MAX_BYTES_PER_READ) // 重新调整BufferReader大小
     {
@@ -144,7 +84,6 @@ int BufferReader::readFd(int sockfd)
     }
 
     return bytesRead;
-#endif
 }
 
 

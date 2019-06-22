@@ -144,9 +144,6 @@
     <ClCompile Include="..\rtmpserver\src\xop\amf.cpp">
       <Filter>rtmpserver</Filter>
     </ClCompile>
-    <ClCompile Include="..\rtmpserver\src\xop\RtmpConnection.cpp">
-      <Filter>rtmpserver</Filter>
-    </ClCompile>
     <ClCompile Include="..\rtmpserver\src\xop\RtmpServer.cpp">
       <Filter>rtmpserver</Filter>
     </ClCompile>
@@ -155,6 +152,15 @@
     </ClCompile>
     <ClCompile Include="rtmp_server.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rtmp\rtmp.cpp">
+      <Filter>rtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rtmp\RtmpConnection.cpp">
+      <Filter>rtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rtmp\RtmpProtocol.cpp">
+      <Filter>rtmp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -299,9 +305,6 @@
     <ClInclude Include="..\rtmpserver\src\xop\amf.h">
       <Filter>rtmpserver</Filter>
     </ClInclude>
-    <ClInclude Include="..\rtmpserver\src\xop\RtmpConnection.h">
-      <Filter>rtmpserver</Filter>
-    </ClInclude>
     <ClInclude Include="..\rtmpserver\src\xop\RtmpServer.h">
       <Filter>rtmpserver</Filter>
     </ClInclude>
@@ -310,6 +313,15 @@
     </ClInclude>
     <ClInclude Include="rtmp_server.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\rtmp.h">
+      <Filter>rtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\RtmpConnection.h">
+      <Filter>rtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\RtmpProtocol.h">
+      <Filter>rtmp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
