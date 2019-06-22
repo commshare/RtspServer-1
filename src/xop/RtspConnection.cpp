@@ -18,13 +18,13 @@ RtspConnection::RtspConnection(Rtsp *rtsp, TaskScheduler *taskScheduler, int soc
     : TcpConnection(taskScheduler, sockfd)
 	, _pTaskScheduler(taskScheduler)
     , _pRtsp(rtsp)
-    , _rtpChannelPtr(new Channel(sockfd))
+    , _rtpChannelPtr(new Channel(sockfd)//构造时创建
     , _rtspRequestPtr(new RtspRequest)
     , _rtspResponsePtr(new RtspResponse)
     , _rtpConnPtr(new RtpConnection(this))
 {
     this->setReadCallback([this](std::shared_ptr<TcpConnection> conn, xop::BufferReader& buffer) {
-        return this->onRead(buffer);
+        return this->onRead(buffer); //实际这里处理
     });
 
     this->setCloseCallback([this](std::shared_ptr<TcpConnection> conn) {
@@ -49,11 +49,11 @@ RtspConnection::~RtspConnection()
 
 }
 
-bool RtspConnection::onRead(BufferReader& buffer)
+bool RtspConnection::onRead(BufferReader& buffer)//解析buffer
 {
     keepAlive(); // 心跳计数, 未加入RTCP解析
 
-    int size = buffer.readableBytes();
+    int size = buffer.readableBytes(); //可读字节数目
     if (size <= 0)
     {
         return false; //close
@@ -61,7 +61,7 @@ bool RtspConnection::onRead(BufferReader& buffer)
 
     if (_connMode == RTSP_SERVER)
     {
-        if (!handleRtspRequest(buffer))
+        if (!handleRtspRequest(buffer)) //处理请求
         {
             return false; //close
         }
@@ -110,7 +110,7 @@ bool RtspConnection::handleRtspRequest(BufferReader& buffer)
 		cout << str << endl;
 #endif
 
-    if (_rtspRequestPtr->parseRequest(&buffer))
+    if (_rtspRequestPtr->parseRequest(&buffer)) //解析请求
     {
         RtspRequest::Method method = _rtspRequestPtr->getMethod();
         if(method == RtspRequest::RTCP)

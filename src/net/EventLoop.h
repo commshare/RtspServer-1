@@ -41,7 +41,7 @@ private:
     std::mutex _mutex;
     uint32_t _index = 1;
     std::vector<std::shared_ptr<TaskScheduler>> _taskSchedulers;
-    std::vector<std::shared_ptr<std::thread>> _threads;
+    std::vector<std::shared_ptr<std::thread>> _threads; //一堆thread干啥
 };
 
 }

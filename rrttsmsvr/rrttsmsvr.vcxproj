@@ -172,6 +172,10 @@
     <ClCompile Include="..\src\net\TcpSocket.cpp" />
     <ClCompile Include="..\src\net\Timer.cpp" />
     <ClCompile Include="..\src\net\Timestamp.cpp" />
+    <ClCompile Include="..\src\rtmp\rtmp.cpp" />
+    <ClCompile Include="..\src\rtmp\RtmpProtocol.cpp" />
+    <ClCompile Include="..\src\rtmp\RtmpSession.cpp" />
+    <ClCompile Include="..\src\rtmp\rtmpsever.cpp" />
     <ClCompile Include="..\src\xop\AACSource.cpp" />
     <ClCompile Include="..\src\xop\G711ASource.cpp" />
     <ClCompile Include="..\src\xop\H264Parser.cpp" />
@@ -183,7 +187,10 @@
     <ClCompile Include="..\src\xop\RtspMessage.cpp" />
     <ClCompile Include="..\src\xop\RtspPusher.cpp" />
     <ClCompile Include="..\src\xop\RtspServer.cpp" />
+    <ClCompile Include="..\src\zlm\Buffer.cpp" />
+    <ClCompile Include="..\src\zlm\uv_errno.cpp" />
     <ClCompile Include="rrttsmsvr.cpp" />
+    <ClCompile Include="rtmp_svr.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\net\Acceptor.h" />
@@ -208,6 +215,10 @@
     <ClInclude Include="..\src\net\ThreadSafeQueue.h" />
     <ClInclude Include="..\src\net\Timer.h" />
     <ClInclude Include="..\src\net\Timestamp.h" />
+    <ClInclude Include="..\src\rtmp\comm.h" />
+    <ClInclude Include="..\src\rtmp\rtmp.h" />
+    <ClInclude Include="..\src\rtmp\RtmpProtocol.h" />
+    <ClInclude Include="..\src\rtmp\RtmpSession.h" />
     <ClInclude Include="..\src\xop\AACSource.h" />
     <ClInclude Include="..\src\xop\G711ASource.h" />
     <ClInclude Include="..\src\xop\H264Parser.h" />
@@ -223,6 +234,10 @@
     <ClInclude Include="..\src\xop\RtspMessage.h" />
     <ClInclude Include="..\src\xop\RtspPusher.h" />
     <ClInclude Include="..\src\xop\RtspServer.h" />
+    <ClInclude Include="..\src\zlm\Buffer.h" />
+    <ClInclude Include="..\src\zlm\List.h" />
+    <ClInclude Include="..\src\zlm\noncopy.h" />
+    <ClInclude Include="..\src\zlm\uv_errno.h" />
     <ClInclude Include="rtsp_svr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

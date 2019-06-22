@@ -23,6 +23,7 @@ bool BufferWriter::append(std::shared_ptr<char> data, uint32_t size, uint32_t in
         return false;		
 
     Packet pkt = {data, size, index};
+	//加入queue
     _buffer->emplace(std::move(pkt));
 
     return true;

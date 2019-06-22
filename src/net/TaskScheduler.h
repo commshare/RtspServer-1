@@ -42,6 +42,7 @@ protected:
     std::shared_ptr<Pipe> _wakeupPipe;
     std::shared_ptr<Channel> _wakeupChannel;
 
+	//event放ringbufer？
     typedef xop::RingBuffer<TriggerEvent> TriggerEventQueue;
     std::shared_ptr<TriggerEventQueue> _triggerEvents;
 

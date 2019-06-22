@@ -22,6 +22,12 @@
     <Filter Include="xop">
       <UniqueIdentifier>{5056233c-08de-438f-ba84-e86971961a0a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rtmp">
+      <UniqueIdentifier>{060eb52b-ee0b-4a41-b85c-8f9c1c9cabc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zlm">
+      <UniqueIdentifier>{1a0a3ce2-a4fd-4c98-ac44-74ca941c3ec3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="rrttsmsvr.cpp">
@@ -119,6 +125,27 @@
     </ClCompile>
     <ClCompile Include="..\src\xop\RtspServer.cpp">
       <Filter>xop</Filter>
+    </ClCompile>
+    <ClCompile Include="rtmp_svr.cpp">
+      <Filter>rtsp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zlm\Buffer.cpp">
+      <Filter>zlm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zlm\uv_errno.cpp">
+      <Filter>zlm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rtmp\RtmpProtocol.cpp">
+      <Filter>rtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rtmp\RtmpSession.cpp">
+      <Filter>rtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rtmp\rtmpsever.cpp">
+      <Filter>rtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\rtmp\rtmp.cpp">
+      <Filter>rtmp</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -235,6 +262,30 @@
     </ClInclude>
     <ClInclude Include="rtsp_svr.h">
       <Filter>rtsp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\Buffer.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\noncopy.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\uv_errno.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\List.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\RtmpProtocol.h">
+      <Filter>rtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\RtmpSession.h">
+      <Filter>rtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\comm.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\rtmp.h">
+      <Filter>rtmp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
