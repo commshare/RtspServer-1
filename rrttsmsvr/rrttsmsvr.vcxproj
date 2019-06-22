@@ -247,6 +247,7 @@
     <ClInclude Include="..\src\zlm\noncopy.h" />
     <ClInclude Include="..\src\zlm\onceToken.h" />
     <ClInclude Include="..\src\zlm\sockutil.h" />
+    <ClInclude Include="..\src\zlm\TimeTicker.h" />
     <ClInclude Include="..\src\zlm\utils.h" />
     <ClInclude Include="..\src\zlm\uv_errno.h" />
     <ClInclude Include="rtmp_server.h" />

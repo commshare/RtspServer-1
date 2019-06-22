@@ -10,7 +10,9 @@
 #include <algorithm>  
 #include <memory>  
 #include <mutex>
+#include "net/Logger.h"
 
+#define USE_RR_RTMP 1
 #include "zlm/Buffer.h"
 namespace toolkit
 {
@@ -116,7 +118,14 @@ public:
     uint32_t bufferSize() const 
     { return _buffer->size(); }
 	    uint32_t size() const  //rtmp
-    { return _buffer->size(); } 
+    { 
+#if USE_RR_RTMP
+		  FLOG() << "BufferReader size() " << _readBuffer->size();
+		  return _readBuffer->size();
+#else
+		  return _buffer->size(); 
+#endif
+		} 
 
 private:
     char* begin()
@@ -139,12 +148,13 @@ private:
     static const uint32_t MAX_BYTES_PER_READ = 4096;
     static const uint32_t MAX_BUFFER_SIZE = 10240*100;
 private:
-  int onRead(int sockfdk, bool isUdp);
+  int onRead(int sockfdk, bool isUdp=false);
   void setOnRead(const onReadCB &cb);
-
+public: //TODO g共享指针的复制和引用会增加计数么？
+  toolkit::BufferRaw::Ptr _readBuffer;
 private:
   atomic<bool> _enableRecv;
-  toolkit::BufferRaw::Ptr _readBuffer;
+
   onReadCB _readCB;
   toolkit::MutexWrapper<recursive_mutex> _mtx_event;
 

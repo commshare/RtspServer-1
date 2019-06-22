@@ -132,9 +132,6 @@
     <ClCompile Include="..\src\zlm\uv_errno.cpp">
       <Filter>zlm</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\zlm\utils.cpp">
-      <Filter>zlm</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\zlm\sockutil.cpp">
       <Filter>zlm</Filter>
     </ClCompile>
@@ -161,6 +158,9 @@
     </ClCompile>
     <ClCompile Include="..\src\rtmp\RtmpProtocol.cpp">
       <Filter>rtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zlm\utils.cpp">
+      <Filter>zlm</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -293,9 +293,6 @@
     <ClInclude Include="..\src\rtmp\comm.h">
       <Filter>zlm</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\zlm\utils.h">
-      <Filter>zlm</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\zlm\sockutil.h">
       <Filter>zlm</Filter>
     </ClInclude>
@@ -322,6 +319,12 @@
     </ClInclude>
     <ClInclude Include="..\src\rtmp\RtmpProtocol.h">
       <Filter>rtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\TimeTicker.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\utils.h">
+      <Filter>zlm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -156,6 +156,12 @@ private:
     const uint32_t kAcknowledgementSize = 5000000;
     const uint32_t kMaxChunkSize        = 60000;
     const uint32_t kStreamId            = 1;
+	//////////////////////////////////////////////////////////////
+	private:
+	  //消耗的总流量
+	  uint64_t _ui64TotalBytes = 0;
+	private:
+	  void onRecv(const toolkit::Buffer::Ptr &pBuf);
 };
       
 }

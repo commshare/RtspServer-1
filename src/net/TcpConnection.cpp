@@ -1,16 +1,17 @@
 #include "TcpConnection.h"
 #include "SocketUtil.h"
-
+#include "net/Logger.h"
 using namespace xop;
 
 TcpConnection::TcpConnection(TaskScheduler *taskScheduler, int sockfd)
 	: _taskScheduler(taskScheduler)
-	, _readBufferPtr(new BufferReader)
+	, _readBufferPtr(new BufferReader) //tcp connection 1v1 对应_readBufferPtr
 	, _writeBufferPtr(new BufferWriter(1000))
 	, _channelPtr(new Channel(sockfd))
 {
     _isClosed = false;
 
+	//epoll触发TcpConnection的handleRead
     _channelPtr->setReadCallback([this]() { this->handleRead(); });
     _channelPtr->setWriteCallback([this]() { this->handleWrite(); });
     _channelPtr->setCloseCallback([this]() { this->handleClose(); });
@@ -68,7 +69,7 @@ void TcpConnection::close()
 
     this->handleClose();
 }
-
+//TcpConnection 的handleRead 读取数据然后让rtmp 的connection来从中读取
 void TcpConnection::handleRead()
 {
     if (_isClosed)
@@ -77,7 +78,7 @@ void TcpConnection::handleRead()
     int ret = _readBufferPtr->readFd(_channelPtr->fd());
     if (ret <= 0)
     {
-	  FLOG()<<"READ NO DATA, CLOSE ";
+	  FLOG()<<"====READ NO DATA, CLOSE ";
         this->handleClose();
         return;
     }
@@ -87,7 +88,7 @@ void TcpConnection::handleRead()
         _taskScheduler->addTriggerEvent([this]{   
             if(_readBufferPtr->size() > 0)
             {   
-			  //回调给rtmp
+			  //回调给rtmp的connection
                 bool ret = _readCB(shared_from_this(), *_readBufferPtr);
                 if (false == ret)
                 {

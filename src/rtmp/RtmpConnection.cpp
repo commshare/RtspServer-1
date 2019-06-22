@@ -12,6 +12,7 @@ RtmpConnection::RtmpConnection(RtmpServer *rtmpServer, TaskScheduler *taskSchedu
     
 {
     this->setReadCallback([this](std::shared_ptr<TcpConnection> conn, xop::BufferReader& buffer) {
+	  //rtmp只传递BufferReader用
         return this->onRead(buffer);
     });
 
@@ -26,9 +27,22 @@ RtmpConnection::~RtmpConnection()
 {
     
 }
+void RtmpConnection::onRecv(const toolkit::Buffer::Ptr &pBuf) {
+  _ticker.resetTime();
+  try {
+	_ui64TotalBytes += pBuf->size();
+	onParseRtmp(pBuf->data(), pBuf->size());
+  }
+  catch (exception &e) {
+	shutdown(SockException(Err_shutdown, e.what()));
+  }
+}
 //读调用这个
-bool RtmpConnection::onRead(BufferReader& buffer)
+bool RtmpConnection::onRead(BufferReader& buffer) //BufferReader 父类创建
 {   
+#if USE_RR_RTMP
+  onRecv(buffer._readBuffer);
+#else
     bool ret = true;
     if(m_connStatus >= HANDSHAKE_COMPLETE)
     {
@@ -47,6 +61,7 @@ bool RtmpConnection::onRead(BufferReader& buffer)
     }
 
     return ret;
+#endif
 }
 
 void RtmpConnection::onClose()

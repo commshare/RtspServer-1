@@ -4,11 +4,11 @@
 #include "BufferReader.h"
 #include "Socket.h"
 #include <cstring>
-#include "net/Logger.h"
+
 
 #define LOCK_GUARD(mtx) lock_guard<decltype(mtx)> lck(mtx)
 
-#define USE_RR_RTMP 1
+
 
 using namespace xop;
 
@@ -58,7 +58,7 @@ uint16_t xop::readUint16LE(char* data)
 const char BufferReader::kCRLF[] = "\r\n";
 
 BufferReader::BufferReader(uint32_t initialSize)
-    : _buffer(new std::vector<char>(initialSize))
+    : _buffer(new std::vector<char>(initialSize)), _mtx_event(true)
 {
 	_buffer->resize(initialSize);
 
@@ -105,8 +105,8 @@ int BufferReader::onRead(int sockfd, bool isUdp) {
 	_readBuffer->data()[nread] = '\0';
 	_readBuffer->setSize(nread);
 
-	//LOCK_GUARD(_mtx_event);
-	//_readCB(_readBuffer, &peerAddr, len);
+	LOCK_GUARD(_mtx_event);
+	_readCB(_readBuffer, &peerAddr, len);
 	}
   return 0;
 }
@@ -116,14 +116,15 @@ void BufferReader::setOnRead(const onReadCB &cb) {
 	_readCB = cb;
   }
   else {
-	_readCB = [](const toolkit::Buffer::Ptr &buf, struct sockaddr *, int) {
-	  WarnL << "Socket not set readCB";
+	_readCB = [](const toolkit::Buffer::Ptr &buf, struct sockaddr *, int len) {
+	  WarnL << "rtmp conn not set readCB len:"<<len;
 	};
   }
 }
 int BufferReader::readFd(int sockfd)
 {	
 #if USE_RR_RTMP
+  return onRead(sockfd);
 #else
     uint32_t size = writableBytes();
     if(size < MAX_BYTES_PER_READ) // 重新调整BufferReader大小
