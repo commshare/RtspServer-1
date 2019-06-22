@@ -23,6 +23,7 @@ public:
     bool hasPublisher(std::string streamPath);
     
 private:
+  //±ÿ–Î µœ÷
     virtual TcpConnection::Ptr newConnection(SOCKET sockfd);
     
     std::mutex m_mutex;

@@ -1,7 +1,7 @@
 #include "RtmpConnection.h"
 #include "RtmpServer.h"
 #include <random>
-
+#include "net/Logger.h"
 using namespace xop;
 
 RtmpConnection::RtmpConnection(RtmpServer *rtmpServer, TaskScheduler *taskScheduler, SOCKET sockfd)
@@ -26,7 +26,7 @@ RtmpConnection::~RtmpConnection()
 {
     
 }
-
+//读调用这个
 bool RtmpConnection::onRead(BufferReader& buffer)
 {   
     bool ret = true;
@@ -37,6 +37,8 @@ bool RtmpConnection::onRead(BufferReader& buffer)
     else if(m_connStatus == HANDSHAKE_C0C1 
         || m_connStatus == HANDSHAKE_C2)
     {
+	  //处理握手
+	  FLOG() << "handle handshake ";
         ret = this->handleHandshake(buffer);
         if(m_connStatus==HANDSHAKE_COMPLETE && buffer.readableBytes()>0)
         {
@@ -79,7 +81,7 @@ bool RtmpConnection::handleHandshake(BufferReader& buffer)
             memset(res.get(), 0, 1537);
             res.get()[0] = kRtmpVersion; 
             
-            // 濉厖闅忔満鏁版嵁
+            // 填充随机数据
             std::random_device rd;
             char *p = res.get(); p += 9;
             for(int i=0; i<1528; i++)
@@ -118,6 +120,7 @@ bool RtmpConnection::handleHandshake(BufferReader& buffer)
 
 bool RtmpConnection::handleChunk(BufferReader& buffer)
 {
+  FLOG() << "handle chunk ";
     bool ret = true; 
     do
     {      
@@ -517,7 +520,7 @@ bool RtmpConnection::handlePublish()
     }
     /* else if(0)
     {
-        //璁よ瘉澶勭悊
+        //认证处理
     } */
     else
     {

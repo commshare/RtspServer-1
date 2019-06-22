@@ -25,6 +25,7 @@ public:
     TaskScheduler* getTaskScheduler() const 
     { return _taskScheduler; }
 
+	//´¦Àí¶ÁµÄ
     void setReadCallback(const ReadCallback& cb)
     { _readCB = cb; }
 

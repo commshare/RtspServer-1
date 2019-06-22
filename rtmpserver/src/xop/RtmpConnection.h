@@ -45,6 +45,7 @@ class RtmpConnection : public TcpConnection
 public:    
     enum ConnectionStatus
     {
+	  //这是处理客户端链接的意思？
         HANDSHAKE_C0C1, 
         HANDSHAKE_C2,
         HANDSHAKE_COMPLETE,

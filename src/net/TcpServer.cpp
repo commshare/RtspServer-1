@@ -20,12 +20,12 @@ TcpServer::TcpServer(EventLoop* eventLoop, std::string ip, uint16_t port)
 	
 	//收到新链接之后触发
     _acceptor->setNewConnectionCallback([this](SOCKET sockfd) { 
-	  //DLOG("NEW CONN FD %d \n", sockfd);
-	    //使用这个fd，创建新tcp conn
+	  FLOG()<<"setNewConnectionCallback NEW CONN FD "<< sockfd;
+	    //使用这个fd，创建新tcp conn，由rtmp具体实现
         TcpConnection::Ptr tcpConn = this->newConnection(sockfd);
         if (tcpConn)
         {
-		    //保存
+		    //tcp server 管理 rtmp 链接
             this->addConnection(sockfd, tcpConn);
 			//断链回调
             tcpConn->setDisconnectCallback([this] (TcpConnection::Ptr conn){ 
@@ -33,7 +33,7 @@ TcpServer::TcpServer(EventLoop* eventLoop, std::string ip, uint16_t port)
                     int sockfd = conn->fd();
                     if (!taskScheduler->addTriggerEvent([this, sockfd] {this->removeConnection(sockfd); }))
                     {
-					  FLOG() << "removeConnection " << sockfd;
+					  FLOG() << "setDisconnectCallback removeConnection " << sockfd;
                         taskScheduler->addTimer([this, sockfd]() {this->removeConnection(sockfd); return false;}, 1);
                     }
             });
