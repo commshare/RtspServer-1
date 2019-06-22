@@ -1,4 +1,4 @@
-ï»¿/* Copyright Joyent, Inc. and other Node contributors. All rights reserved.
+/* Copyright Joyent, Inc. and other Node contributors. All rights reserved.
 *  Copyright (c) 2016-2019 xiongziliang <771730766@qq.com>
 * Permission is hereby granted, free of charge, to any person obtaining a copy
 * of this software and associated documentation files (the "Software"), to
@@ -514,9 +514,9 @@ const char* uv_err_name(int err);
 const char* uv_strerror(int err);
 
 int uv_translate_posix_error(int err);
-//netErrå‚æ•°åœ¨windowså¹³å°ä¸‹æ‰æœ‰æ•ˆ
+//netErr²ÎÊıÔÚwindowsÆ½Ì¨ÏÂ²ÅÓĞĞ§
 int get_uv_error(bool netErr = true);
-//netErrå‚æ•°åœ¨windowså¹³å°ä¸‹æ‰æœ‰æ•ˆ
+//netErr²ÎÊıÔÚwindowsÆ½Ì¨ÏÂ²ÅÓĞĞ§
 const char* get_uv_errmsg(bool netErr = true);
 
 

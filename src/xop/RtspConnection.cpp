@@ -18,7 +18,7 @@ RtspConnection::RtspConnection(Rtsp *rtsp, TaskScheduler *taskScheduler, int soc
     : TcpConnection(taskScheduler, sockfd)
 	, _pTaskScheduler(taskScheduler)
     , _pRtsp(rtsp)
-    , _rtpChannelPtr(new Channel(sockfd)//构造时创建
+    , _rtpChannelPtr(new Channel(sockfd))//构造时创建
     , _rtspRequestPtr(new RtspRequest)
     , _rtspResponsePtr(new RtspResponse)
     , _rtpConnPtr(new RtpConnection(this))

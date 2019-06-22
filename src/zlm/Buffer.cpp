@@ -21,17 +21,17 @@ int sendmsg(int fd, const struct msghdr *msg, int flags) {
         }while (-1 == n && UV_EINTR == get_uv_error(true));
 
         if(n == -1 ){
-            //å¯èƒ½ä¸€ä¸ªå­—èŠ‚éƒ½æœªå‘é€æˆåŠŸ
+            //¿ÉÄÜÒ»¸ö×Ö½Ú¶¼Î´·¢ËÍ³É¹¦
             return total ? total : -1;
         }
         if(n < msg->msg_iov[i].iov_len){
-            //å‘é€éƒ¨åˆ†å­—èŠ‚æˆåŠŸ
+            //·¢ËÍ²¿·Ö×Ö½Ú³É¹¦
             return total + n;
         }
-        //å•æ¬¡å…¨éƒ¨å‘é€æˆåŠŸ
+        //µ¥´ÎÈ«²¿·¢ËÍ³É¹¦
         total += n;
     }
-    //å…¨éƒ¨å‘é€æˆåŠŸ
+    //È«²¿·¢ËÍ³É¹¦
     return total;
 }
 #endif // defined(_WIN32)
@@ -62,19 +62,19 @@ int BufferList::send_l(int fd, int flags,bool udp) {
     } while (-1 == n && UV_EINTR == get_uv_error(true));
 
     if(n >= _remainSize){
-        //å…¨éƒ¨å†™å®Œäº†
+        //È«²¿Ğ´ÍêÁË
         _iovec_off = _iovec.size();
         _remainSize = 0;
         return n;
     }
 
     if(n > 0){
-        //éƒ¨åˆ†å‘é€æˆåŠŸ
+        //²¿·Ö·¢ËÍ³É¹¦
         reOffset(n);
         return n;
     }
 
-    //ä¸€ä¸ªå­—èŠ‚éƒ½æœªå‘é€
+    //Ò»¸ö×Ö½Ú¶¼Î´·¢ËÍ
     return n;
 }
 
@@ -84,10 +84,10 @@ int BufferList::send(int fd,int flags,bool udp) {
 
     int sent = remainSize - _remainSize;
     if(sent > 0){
-        //éƒ¨åˆ†æˆ–å…¨éƒ¨å‘é€æˆåŠŸ
+        //²¿·Ö»òÈ«²¿·¢ËÍ³É¹¦
         return sent;
     }
-    //ä¸€ä¸ªå­—èŠ‚éƒ½æœªå‘é€æˆåŠŸ
+    //Ò»¸ö×Ö½Ú¶¼Î´·¢ËÍ³É¹¦
     return -1;
 }
 
@@ -111,7 +111,7 @@ void BufferList::reOffset(int n) {
         break;
     }
 
-    //åˆ é™¤å·²ç»å‘é€çš„æ•°æ®ï¼ŒèŠ‚çœå†…å­˜
+    //É¾³ıÒÑ¾­·¢ËÍµÄÊı¾İ£¬½ÚÊ¡ÄÚ´æ
     for (int i = last_off ; i < _iovec_off ; ++i){
         _pkt_list.pop_front();
     }

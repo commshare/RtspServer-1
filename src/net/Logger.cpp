@@ -11,7 +11,8 @@
 #include "Timestamp.h"
 
 using namespace xop;
-
+//自定义
+LogFunc XLog::logfunc = mlog;
 const char* Priority_To_String[] =
 {
     "DEBUG",
@@ -81,7 +82,10 @@ void Logger::log(Priority priority, const char *fmt, ...)
 	_queue.push(std::move(entry));
 	_cond.notify_all();
 }
-
+void mlog(xop::LogLevel level, const char* msg)
+{
+  std::cout << "[" << (int)level << "]" << msg << std::endl;
+}
 void Logger::run()
 {
     std::unique_lock<std::mutex> lock(_mutex);

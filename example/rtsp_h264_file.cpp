@@ -7,6 +7,9 @@
 #include <iostream>
 #include <string>
 
+#if defined(WIN32) || defined(_WIN32) 
+#define _CRT_SECURE_NO_WARNINGS
+#endif
 class H264File
 {
 public:
@@ -112,7 +115,7 @@ H264File::~H264File()
 {
     delete m_buf;
 }
-
+#define  _CRT_SECURE_NO_WARNINGS
 bool H264File::open(const char *path)
 {
     m_file = fopen(path, "rb");

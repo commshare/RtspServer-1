@@ -15,20 +15,20 @@
 #include <functional>
 #include "zlm/noncopy.h"
 
-#include "Util/util.h"
+#include "utils.h"
 #include "uv_errno.h"
 #include "List.h"
-#include "Network/sockutil.h"
+#include "sockutil.h"
 
 using namespace std;
 namespace toolkit {
-//ç¼“å­˜åŸºç±»
+//»º´æ»ùÀà
 class Buffer : public noncopyable {
 public:
     typedef std::shared_ptr<Buffer> Ptr;
     Buffer(){};
     virtual ~Buffer(){};
-    //è¿”å›æ•°æ®é•¿åº¦
+    //·µ»ØÊı¾İ³¤¶È
     virtual char *data() const = 0 ;
     virtual uint32_t size() const = 0;
 
@@ -41,7 +41,7 @@ public:
     }
 };
 
-//å­—ç¬¦ä¸²ç¼“å­˜
+//×Ö·û´®»º´æ
 class BufferString : public  Buffer {
 public:
     typedef std::shared_ptr<BufferString> Ptr;
@@ -62,7 +62,7 @@ private:
     string _data;
 };
 
-//æŒ‡é’ˆå¼ç¼“å­˜å¯¹è±¡ï¼Œ
+//Ö¸ÕëÊ½»º´æ¶ÔÏó£¬
 class BufferRaw : public Buffer{
 public:
     typedef std::shared_ptr<BufferRaw> Ptr;
@@ -81,36 +81,36 @@ public:
             delete [] _data;
         }
     }
-    //åœ¨å†™å…¥æ•°æ®æ—¶è¯·ç¡®ä¿å†…å­˜æ˜¯å¦è¶Šç•Œ
+    //ÔÚĞ´ÈëÊı¾İÊ±ÇëÈ·±£ÄÚ´æÊÇ·ñÔ½½ç
     char *data() const override {
         return _data;
     }
-    //æœ‰æ•ˆæ•°æ®å¤§å°
+    //ÓĞĞ§Êı¾İ´óĞ¡
     uint32_t size() const override{
         return _size;
     }
-    //åˆ†é…å†…å­˜å¤§å°
+    //·ÖÅäÄÚ´æ´óĞ¡
     void setCapacity(uint32_t capacity){
         if(_data){
             delete [] _data;
         }
-		//å®è´¨å°±æ˜¯ä¸€ä¸ªå­—ç¬¦æ•°ç»„
+		//ÊµÖÊ¾ÍÊÇÒ»¸ö×Ö·ûÊı×é
         _data = new char[capacity];
         _capacity = capacity;
     }
-    //è®¾ç½®æœ‰æ•ˆæ•°æ®å¤§å°
+    //ÉèÖÃÓĞĞ§Êı¾İ´óĞ¡
     void setSize(uint32_t size){
         if(size > _capacity){
             throw std::invalid_argument("Buffer::setSize out of range");
         }
         _size = size;
     }
-    //èµ‹å€¼æ•°æ®
+    //¸³ÖµÊı¾İ
     void assign(const char *data,uint32_t size = 0){
         if(size <=0 ){
             size = strlen(data);
         }
-		//åˆ†é…æŒ‡å®šå¤§å°çš„å†…å­˜
+		//·ÖÅäÖ¸¶¨´óĞ¡µÄÄÚ´æ
         setCapacity(size + 1);
         memcpy(_data,data,size);
         _data[size] = '\0';

@@ -30,9 +30,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="rrttsmsvr.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="..\example\rtsp_h264_file.cpp">
       <Filter>rtsp</Filter>
     </ClCompile>
@@ -126,26 +123,20 @@
     <ClCompile Include="..\src\xop\RtspServer.cpp">
       <Filter>xop</Filter>
     </ClCompile>
-    <ClCompile Include="rtmp_svr.cpp">
-      <Filter>rtsp</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\zlm\Buffer.cpp">
       <Filter>zlm</Filter>
     </ClCompile>
     <ClCompile Include="..\src\zlm\uv_errno.cpp">
       <Filter>zlm</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\rtmp\RtmpProtocol.cpp">
-      <Filter>rtmp</Filter>
+    <ClCompile Include="..\src\zlm\utils.cpp">
+      <Filter>zlm</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\rtmp\RtmpSession.cpp">
-      <Filter>rtmp</Filter>
+    <ClCompile Include="..\src\zlm\sockutil.cpp">
+      <Filter>zlm</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\rtmp\rtmpsever.cpp">
-      <Filter>rtmp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\rtmp\rtmp.cpp">
-      <Filter>rtmp</Filter>
+    <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,17 +266,17 @@
     <ClInclude Include="..\src\zlm\List.h">
       <Filter>zlm</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\rtmp\RtmpProtocol.h">
-      <Filter>rtmp</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\rtmp\RtmpSession.h">
-      <Filter>rtmp</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\rtmp\comm.h">
       <Filter>zlm</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\rtmp\rtmp.h">
-      <Filter>rtmp</Filter>
+    <ClInclude Include="..\src\zlm\utils.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\sockutil.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\onceToken.h">
+      <Filter>zlm</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

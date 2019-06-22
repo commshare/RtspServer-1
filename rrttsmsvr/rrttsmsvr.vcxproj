@@ -23,7 +23,7 @@
     <ProjectGuid>{B4312B75-ED74-4D0C-855B-7F5B09EFE89B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>rrttsmsvr</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -42,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
@@ -105,8 +105,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;WIN32;_WIN32;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>../;./;../src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -172,10 +173,6 @@
     <ClCompile Include="..\src\net\TcpSocket.cpp" />
     <ClCompile Include="..\src\net\Timer.cpp" />
     <ClCompile Include="..\src\net\Timestamp.cpp" />
-    <ClCompile Include="..\src\rtmp\rtmp.cpp" />
-    <ClCompile Include="..\src\rtmp\RtmpProtocol.cpp" />
-    <ClCompile Include="..\src\rtmp\RtmpSession.cpp" />
-    <ClCompile Include="..\src\rtmp\rtmpsever.cpp" />
     <ClCompile Include="..\src\xop\AACSource.cpp" />
     <ClCompile Include="..\src\xop\G711ASource.cpp" />
     <ClCompile Include="..\src\xop\H264Parser.cpp" />
@@ -188,9 +185,10 @@
     <ClCompile Include="..\src\xop\RtspPusher.cpp" />
     <ClCompile Include="..\src\xop\RtspServer.cpp" />
     <ClCompile Include="..\src\zlm\Buffer.cpp" />
+    <ClCompile Include="..\src\zlm\sockutil.cpp" />
+    <ClCompile Include="..\src\zlm\utils.cpp" />
     <ClCompile Include="..\src\zlm\uv_errno.cpp" />
-    <ClCompile Include="rrttsmsvr.cpp" />
-    <ClCompile Include="rtmp_svr.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\net\Acceptor.h" />
@@ -216,9 +214,6 @@
     <ClInclude Include="..\src\net\Timer.h" />
     <ClInclude Include="..\src\net\Timestamp.h" />
     <ClInclude Include="..\src\rtmp\comm.h" />
-    <ClInclude Include="..\src\rtmp\rtmp.h" />
-    <ClInclude Include="..\src\rtmp\RtmpProtocol.h" />
-    <ClInclude Include="..\src\rtmp\RtmpSession.h" />
     <ClInclude Include="..\src\xop\AACSource.h" />
     <ClInclude Include="..\src\xop\G711ASource.h" />
     <ClInclude Include="..\src\xop\H264Parser.h" />
@@ -237,6 +232,9 @@
     <ClInclude Include="..\src\zlm\Buffer.h" />
     <ClInclude Include="..\src\zlm\List.h" />
     <ClInclude Include="..\src\zlm\noncopy.h" />
+    <ClInclude Include="..\src\zlm\onceToken.h" />
+    <ClInclude Include="..\src\zlm\sockutil.h" />
+    <ClInclude Include="..\src\zlm\utils.h" />
     <ClInclude Include="..\src\zlm\uv_errno.h" />
     <ClInclude Include="rtsp_svr.h" />
   </ItemGroup>

@@ -20,7 +20,7 @@ TcpServer::TcpServer(EventLoop* eventLoop, std::string ip, uint16_t port)
 	
 	//收到新链接之后触发
     _acceptor->setNewConnectionCallback([this](SOCKET sockfd) { 
-	  DLOG("NEW CONN FD %d \n", sockfd);
+	  //DLOG("NEW CONN FD %d \n", sockfd);
 	    //使用这个fd，创建新tcp conn
         TcpConnection::Ptr tcpConn = this->newConnection(sockfd);
         if (tcpConn)
@@ -33,7 +33,7 @@ TcpServer::TcpServer(EventLoop* eventLoop, std::string ip, uint16_t port)
                     int sockfd = conn->fd();
                     if (!taskScheduler->addTriggerEvent([this, sockfd] {this->removeConnection(sockfd); }))
                     {
-					  LOG() << "removeConnection " << sockfd;
+					  FLOG() << "removeConnection " << sockfd;
                         taskScheduler->addTimer([this, sockfd]() {this->removeConnection(sockfd); return false;}, 1);
                     }
             });

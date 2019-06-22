@@ -42,7 +42,7 @@ int Acceptor::listen()
 void Acceptor::handleAccept()
 {
     int connfd = _tcpSocket->accept();
-	LOG() << "TCP ACCEPT NEW FD " << connfd;
+	FLOG() << "TCP ACCEPT NEW FD " << connfd;
     if (connfd > 0)
     {
         if (_newConnectionCallback)		
