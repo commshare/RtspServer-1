@@ -32,7 +32,7 @@ public:
 
     int getId() const 
     { return _id; }
-
+    
 protected:
     void wake();
     void handleTriggerEvent();
@@ -42,7 +42,6 @@ protected:
     std::shared_ptr<Pipe> _wakeupPipe;
     std::shared_ptr<Channel> _wakeupChannel;
 
-	//event放ringbufer？
     typedef xop::RingBuffer<TriggerEvent> TriggerEventQueue;
     std::shared_ptr<TriggerEventQueue> _triggerEvents;
 

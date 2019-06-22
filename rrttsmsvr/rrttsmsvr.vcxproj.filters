@@ -28,6 +28,9 @@
     <Filter Include="zlm">
       <UniqueIdentifier>{1a0a3ce2-a4fd-4c98-ac44-74ca941c3ec3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="rtmpserver">
+      <UniqueIdentifier>{66f0b6d0-9aeb-42af-a70d-53c379f7e725}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\example\rtsp_h264_file.cpp">
@@ -136,6 +139,21 @@
       <Filter>zlm</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="..\rtmpserver\src\xop\amf.cpp">
+      <Filter>rtmpserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\rtmpserver\src\xop\RtmpConnection.cpp">
+      <Filter>rtmpserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\rtmpserver\src\xop\RtmpServer.cpp">
+      <Filter>rtmpserver</Filter>
+    </ClCompile>
+    <ClCompile Include="..\rtmpserver\src\xop\RtmpSession.cpp">
+      <Filter>rtmpserver</Filter>
+    </ClCompile>
+    <ClCompile Include="rtmp_server.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -277,6 +295,21 @@
     </ClInclude>
     <ClInclude Include="..\src\zlm\onceToken.h">
       <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\rtmpserver\src\xop\amf.h">
+      <Filter>rtmpserver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\rtmpserver\src\xop\RtmpConnection.h">
+      <Filter>rtmpserver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\rtmpserver\src\xop\RtmpServer.h">
+      <Filter>rtmpserver</Filter>
+    </ClInclude>
+    <ClInclude Include="..\rtmpserver\src\xop\RtmpSession.h">
+      <Filter>rtmpserver</Filter>
+    </ClInclude>
+    <ClInclude Include="rtmp_server.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

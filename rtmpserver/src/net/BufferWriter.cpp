@@ -65,7 +65,6 @@ bool BufferWriter::append(std::shared_ptr<char> data, uint32_t size, uint32_t in
         return false;		
 
     Packet pkt = {data, size, index};
-	//加入queue
     _buffer->emplace(std::move(pkt));
 
     return true;
@@ -104,7 +103,7 @@ int BufferWriter::send(int sockfd, int timeout)
 
 		count -= 1;
 		Packet &pkt = _buffer->front();
-		ret = ::send(sockfd, pkt.data.get() + pkt.writeIndex, pkt.size - pkt.writeIndex, 0);
+		ret = ::send(sockfd, pkt.data.get() + pkt.writeIndex, pkt.size - pkt.writeIndex, 0);        
 		if (ret > 0)
 		{
 			pkt.writeIndex += ret;
@@ -115,7 +114,7 @@ int BufferWriter::send(int sockfd, int timeout)
 			}
 		}
 		else if (ret < 0)
-		{
+		{          
 #if defined(__linux) || defined(__linux__)
 			if (errno == EINTR || errno == EAGAIN)
 #elif defined(WIN32) || defined(_WIN32)

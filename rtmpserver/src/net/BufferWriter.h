@@ -45,7 +45,7 @@ private:
         uint32_t size;
         uint32_t writeIndex;
     } Packet;
-	//包队列
+
     std::shared_ptr<std::queue<Packet>> _buffer;  		
     int _maxQueueLength = 0;
 	 

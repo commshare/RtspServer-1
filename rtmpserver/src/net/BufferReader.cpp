@@ -7,7 +7,6 @@
  
 using namespace xop;
 
-//for rtmp begin
 uint32_t xop::readUint32BE(char* data)
 {
     uint8_t* p = (uint8_t*)data;
@@ -49,7 +48,7 @@ uint16_t xop::readUint16LE(char* data)
     uint16_t value = (p[1] << 8) | p[0];
     return value; 
 }
-//for rtmp end
+
 const char BufferReader::kCRLF[] = "\r\n";
 
 BufferReader::BufferReader(uint32_t initialSize)

@@ -156,6 +156,10 @@
     <ClCompile Include="..\example\rtsp_h264_file.cpp" />
     <ClCompile Include="..\example\rtsp_pusher.cpp" />
     <ClCompile Include="..\example\rtsp_server.cpp" />
+    <ClCompile Include="..\rtmpserver\src\xop\amf.cpp" />
+    <ClCompile Include="..\rtmpserver\src\xop\RtmpConnection.cpp" />
+    <ClCompile Include="..\rtmpserver\src\xop\RtmpServer.cpp" />
+    <ClCompile Include="..\rtmpserver\src\xop\RtmpSession.cpp" />
     <ClCompile Include="..\src\net\Acceptor.cpp" />
     <ClCompile Include="..\src\net\BufferReader.cpp" />
     <ClCompile Include="..\src\net\BufferWriter.cpp" />
@@ -189,8 +193,13 @@
     <ClCompile Include="..\src\zlm\utils.cpp" />
     <ClCompile Include="..\src\zlm\uv_errno.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="rtmp_server.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\rtmpserver\src\xop\amf.h" />
+    <ClInclude Include="..\rtmpserver\src\xop\RtmpConnection.h" />
+    <ClInclude Include="..\rtmpserver\src\xop\RtmpServer.h" />
+    <ClInclude Include="..\rtmpserver\src\xop\RtmpSession.h" />
     <ClInclude Include="..\src\net\Acceptor.h" />
     <ClInclude Include="..\src\net\BufferReader.h" />
     <ClInclude Include="..\src\net\BufferWriter.h" />
@@ -236,6 +245,7 @@
     <ClInclude Include="..\src\zlm\sockutil.h" />
     <ClInclude Include="..\src\zlm\utils.h" />
     <ClInclude Include="..\src\zlm\uv_errno.h" />
+    <ClInclude Include="rtmp_server.h" />
     <ClInclude Include="rtsp_svr.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

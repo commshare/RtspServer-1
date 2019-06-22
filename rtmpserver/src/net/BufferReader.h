@@ -23,7 +23,7 @@ uint16_t readUint16LE(char* data);
 class BufferReader
 {
 public:	
-	static const uint32_t kInitialSize = 4096; //rtmp 4096
+	static const uint32_t kInitialSize = 4096;
     BufferReader(uint32_t initialSize = kInitialSize);
     ~BufferReader();
 
@@ -81,10 +81,8 @@ public:
     uint32_t readAll(std::string& data);
     uint32_t readUntilCrlf(std::string& data);
 
-    uint32_t bufferSize() const 
+    uint32_t size() const 
     { return _buffer->size(); }
-	    uint32_t size() const  //rtmp
-    { return _buffer->size(); } 
 
 private:
     char* begin()
