@@ -296,9 +296,6 @@
     <ClInclude Include="..\src\zlm\List.h">
       <Filter>zlm</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\rtmp\comm.h">
-      <Filter>zlm</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\zlm\sockutil.h">
       <Filter>zlm</Filter>
     </ClInclude>
@@ -337,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="..\src\zlm\File.h">
       <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\comm.h">
+      <Filter>rtmp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

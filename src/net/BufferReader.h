@@ -10,9 +10,9 @@
 #include <algorithm>  
 #include <memory>  
 #include <mutex>
-#include "net/Logger.h"
+#include "rtmp/comm.h"
 
-#define USE_RR_RTMP 1
+
 #include "zlm/Buffer.h"
 namespace toolkit
 {

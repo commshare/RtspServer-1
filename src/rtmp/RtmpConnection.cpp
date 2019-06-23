@@ -1,7 +1,7 @@
 #include "RtmpConnection.h"
 #include "rtmpserver/src/xop/RtmpServer.h"
 #include <random>
-#include "net/Logger.h"
+#include "rtmp/comm.h"
 using namespace xop;
 
 RtmpConnection::RtmpConnection(RtmpServer *rtmpServer, TaskScheduler *taskScheduler, SOCKET sockfd)
@@ -158,6 +158,8 @@ bool RtmpConnection::handleHandshake(BufferReader& buffer)
 
     if(m_connStatus == HANDSHAKE_C0C1)
     {
+	  //看起来应该是1537 这么大
+	  FLOG() << "HANDSHAKE_C0C1 bufSize : " << bufSize;
         if(bufSize < 1537) //c0c1
         {           
             return true;

@@ -15,6 +15,7 @@
 #include <iostream>
 #include <sstream>
 #include <windows.h>
+#include "net/Timestamp.h"
 
 namespace xop
 {
@@ -42,10 +43,10 @@ namespace xop
 	  , m_func(func)
 	  , m_line(line)
 	  , m_level(level) {
-	  m_stream << "[" << Timestamp::localtime() << "]";
+	  m_stream << "[" << xop::Timestamp::localtime() << "]";
 	}
 	~XLog() {
-	  log_noLevelCmp(m_level, "%s[%s::%s():%d]", m_stream.str().c_str(), m_file, m_func, m_line); }
+	  log_noLevelCmp(m_level, "[%s::%s():%d]%s", m_stream.str().c_str(), m_file, m_func, m_line); }
 	std::ostream& stream() { return m_stream; }
   private:
 	const char* basename(const char* filepath)

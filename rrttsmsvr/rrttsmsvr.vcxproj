@@ -225,8 +225,8 @@
     <ClInclude Include="..\src\net\ThreadSafeQueue.h" />
     <ClInclude Include="..\src\net\Timer.h" />
     <ClInclude Include="..\src\net\Timestamp.h" />
-    <ClInclude Include="..\src\rtmp\rr_amf.h" />
     <ClInclude Include="..\src\rtmp\comm.h" />
+    <ClInclude Include="..\src\rtmp\rr_amf.h" />
     <ClInclude Include="..\src\rtmp\rtmp.h" />
     <ClInclude Include="..\src\rtmp\RtmpConnection.h" />
     <ClInclude Include="..\src\rtmp\RtmpProtocol.h" />

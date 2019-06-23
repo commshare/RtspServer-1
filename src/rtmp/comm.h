@@ -4,3 +4,5 @@
 #define WarnL FLOG()
 #define InfoL FLOG()
 #define DebugL FLOG()
+
+#define USE_RR_RTMP 0
