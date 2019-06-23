@@ -281,6 +281,11 @@ void RtmpProtocol::sendRtmp(uint8_t ui8Type, uint32_t ui32StreamId,
 
 
 void RtmpProtocol::onParseRtmp(const char *pcRawData, int iSize) {
+ // if (iSize < 1024) //好像打印不出来啥
+ // {
+	//FLOG() << "onParseRtmp " << pcRawData;
+ // }
+ 
 	_strRcvBuf.append(pcRawData, iSize);
 	auto cb = _nextHandle;
 	cb();
@@ -513,11 +518,13 @@ void RtmpProtocol::send_complex_S0S1S2(int schemeType,const string &digest){
 }
 #endif //ENABLE_OPENSSL
 void RtmpProtocol::handle_C2() {
+  FLOG() << __FUNCTION__;
 	if (_strRcvBuf.size() < C1_HANDSHARK_SIZE) {
 		//need more data!
 		return;
 	}
 	_strRcvBuf.erase(0, C1_HANDSHARK_SIZE);
+	FLOG() << "握手结束，进入命令模式";
 	//握手结束，进入命令模式
 	if (!_strRcvBuf.empty()) {
 		handle_rtmp();
