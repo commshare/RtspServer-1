@@ -162,6 +162,12 @@
     <ClCompile Include="..\src\zlm\utils.cpp">
       <Filter>zlm</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\rtmp\rr_amf.cpp">
+      <Filter>rtmp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\zlm\File.cpp">
+      <Filter>zlm</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\net\Acceptor.h">
@@ -324,6 +330,12 @@
       <Filter>zlm</Filter>
     </ClInclude>
     <ClInclude Include="..\src\zlm\utils.h">
+      <Filter>zlm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\rr_amf.h">
+      <Filter>rtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\zlm\File.h">
       <Filter>zlm</Filter>
     </ClInclude>
   </ItemGroup>

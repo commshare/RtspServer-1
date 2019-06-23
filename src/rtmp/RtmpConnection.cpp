@@ -1,5 +1,5 @@
 #include "RtmpConnection.h"
-#include "RtmpServer.h"
+#include "rtmpserver/src/xop/RtmpServer.h"
 #include <random>
 #include "net/Logger.h"
 using namespace xop;
@@ -27,23 +27,27 @@ RtmpConnection::~RtmpConnection()
 {
     
 }
-void RtmpConnection::onRecv(const toolkit::Buffer::Ptr &pBuf) {
+bool RtmpConnection::onRecv(const toolkit::Buffer::Ptr &pBuf) {
   _ticker.resetTime();
   try {
 	_ui64TotalBytes += pBuf->size();
 	onParseRtmp(pBuf->data(), pBuf->size());
+	return true;
   }
   catch (exception &e) {
-	shutdown(SockException(Err_shutdown, e.what()));
+	//shutdown(SockException(Err_shutdown, e.what()));
+	FLOG()<<"shutdown(SockException(Err_shutdown, e.what())):"<< e.what();
   }
+  return false;
 }
 //读调用这个
 bool RtmpConnection::onRead(BufferReader& buffer) //BufferReader 父类创建
 {   
+  bool ret = true;
 #if USE_RR_RTMP
-  onRecv(buffer._readBuffer);
+  ret =onRecv(buffer._readBuffer);
 #else
-    bool ret = true;
+   
     if(m_connStatus >= HANDSHAKE_COMPLETE)
     {
         ret = handleChunk(buffer);
@@ -60,10 +64,85 @@ bool RtmpConnection::onRead(BufferReader& buffer) //BufferReader 父类创建
         }
     }
 
-    return ret;
+
+#endif
+	return ret;
+}
+void RtmpConnection::onProcessCmd(AMFDecoder &dec) {
+#if  0
+  typedef void (RtmpSession::*rtmpCMDHandle)(AMFDecoder &dec);
+  static unordered_map<string, rtmpCMDHandle> g_mapCmd;
+  static onceToken token([]() {
+	g_mapCmd.emplace("connect", &RtmpSession::onCmd_connect);
+	g_mapCmd.emplace("createStream", &RtmpSession::onCmd_createStream);
+	g_mapCmd.emplace("publish", &RtmpSession::onCmd_publish);
+	g_mapCmd.emplace("deleteStream", &RtmpSession::onCmd_deleteStream);
+	g_mapCmd.emplace("play", &RtmpSession::onCmd_play);
+	g_mapCmd.emplace("play2", &RtmpSession::onCmd_play2);
+	g_mapCmd.emplace("seek", &RtmpSession::onCmd_seek);
+	g_mapCmd.emplace("pause", &RtmpSession::onCmd_pause); }, []() {});
+
+  std::string method = dec.load<std::string>();
+  auto it = g_mapCmd.find(method);
+  if (it == g_mapCmd.end()) {
+	TraceP(this) << "can not support cmd:" << method;
+	return;
+  }
+  _dNowReqID = dec.load<double>();
+  auto fun = it->second;
+  (this->*fun)(dec);
 #endif
 }
+void RtmpConnection::onRtmpChunk(RtmpPacket &chunkData) {
+  FLOG() << "chunkData.typeId " << chunkData.typeId;
+  #if 0 
+  switch (chunkData.typeId) {
 
+
+  case MSG_CMD:
+  case MSG_CMD3: {
+	AMFDecoder dec(chunkData.strBuf, chunkData.typeId == MSG_CMD3 ? 1 : 0);
+	onProcessCmd(dec);
+  }
+				 break;
+
+  case MSG_DATA:
+  case MSG_DATA3: {
+	AMFDecoder dec(chunkData.strBuf, chunkData.typeId == MSG_CMD3 ? 1 : 0);
+	std::string type = dec.load<std::string>();
+	TraceP(this) << "notify:" << type;
+	if (type == "@setDataFrame") {
+	  setMetaData(dec);
+	}
+  }
+				  break;
+  case MSG_AUDIO:
+  case MSG_VIDEO: {
+	if (!_pPublisherSrc) {
+	  throw std::runtime_error("Not a rtmp publisher!");
+	}
+	GET_CONFIG(bool, rtmp_modify_stamp, Rtmp::kModifyStamp);
+	if (rtmp_modify_stamp) {
+	  chunkData.timeStamp = _stampTicker[chunkData.typeId % 2].elapsedTime();
+	}
+	_pPublisherSrc->onWrite(std::make_shared<RtmpPacket>(std::move(chunkData)));
+  }
+				  break;
+  default:
+	WarnP(this) << "unhandled message:" << (int)chunkData.typeId << hexdump(chunkData.strBuf.data(), chunkData.strBuf.size());
+	break;
+
+  }
+#endif
+}
+void RtmpConnection::rrsend(const Buffer::Ptr &buffer)
+{
+  send(buffer->data(),buffer->size());
+}
+void RtmpConnection::onSendRawData(const Buffer::Ptr &buffer) {
+  _ui64TotalBytes += buffer->size();
+  rrsend(buffer);
+}
 void RtmpConnection::onClose()
 {
     this->handDeleteStream();

@@ -105,7 +105,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;WIN32;_WIN32;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;WIN32;_WIN32;_WINSOCK_DEPRECATED_NO_WARNINGS;_CRT_SECURE_NO_WARNINGS;WIN32_LEAN_AND_MEAN;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>../src/;..\;.\;..\src</AdditionalIncludeDirectories>
     </ClCompile>
@@ -176,6 +176,7 @@
     <ClCompile Include="..\src\net\TcpSocket.cpp" />
     <ClCompile Include="..\src\net\Timer.cpp" />
     <ClCompile Include="..\src\net\Timestamp.cpp" />
+    <ClCompile Include="..\src\rtmp\rr_amf.cpp" />
     <ClCompile Include="..\src\rtmp\rtmp.cpp" />
     <ClCompile Include="..\src\rtmp\RtmpConnection.cpp" />
     <ClCompile Include="..\src\rtmp\RtmpProtocol.cpp" />
@@ -191,6 +192,7 @@
     <ClCompile Include="..\src\xop\RtspPusher.cpp" />
     <ClCompile Include="..\src\xop\RtspServer.cpp" />
     <ClCompile Include="..\src\zlm\Buffer.cpp" />
+    <ClCompile Include="..\src\zlm\File.cpp" />
     <ClCompile Include="..\src\zlm\sockutil.cpp" />
     <ClCompile Include="..\src\zlm\utils.cpp" />
     <ClCompile Include="..\src\zlm\uv_errno.cpp" />
@@ -223,6 +225,7 @@
     <ClInclude Include="..\src\net\ThreadSafeQueue.h" />
     <ClInclude Include="..\src\net\Timer.h" />
     <ClInclude Include="..\src\net\Timestamp.h" />
+    <ClInclude Include="..\src\rtmp\rr_amf.h" />
     <ClInclude Include="..\src\rtmp\comm.h" />
     <ClInclude Include="..\src\rtmp\rtmp.h" />
     <ClInclude Include="..\src\rtmp\RtmpConnection.h" />
@@ -243,6 +246,7 @@
     <ClInclude Include="..\src\xop\RtspPusher.h" />
     <ClInclude Include="..\src\xop\RtspServer.h" />
     <ClInclude Include="..\src\zlm\Buffer.h" />
+    <ClInclude Include="..\src\zlm\File.h" />
     <ClInclude Include="..\src\zlm\List.h" />
     <ClInclude Include="..\src\zlm\noncopy.h" />
     <ClInclude Include="..\src\zlm\onceToken.h" />

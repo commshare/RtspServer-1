@@ -2,7 +2,7 @@
 #define XOP_RTMP_SESSION_H
 
 #include <memory>
-#include "RtmpConnection.h"
+#include "rtmp/RtmpConnection.h"
 
 namespace xop
 {

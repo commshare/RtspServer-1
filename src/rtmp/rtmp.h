@@ -2,10 +2,12 @@
 #include <memory>
 #include <string>
 #include <cstdlib>
-
+#include <net/Logger.h>
 #include "rtmp/comm.h"
 #include "zlm/Buffer.h"
 
+
+#define WarnL FLOG()
 #define PORT	1935
 #define DEFAULT_CHUNK_LEN	128
 

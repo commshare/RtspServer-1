@@ -106,7 +106,14 @@ int BufferReader::onRead(int sockfd, bool isUdp) {
 	_readBuffer->setSize(nread);
 
 	LOCK_GUARD(_mtx_event);
-	_readCB(_readBuffer, &peerAddr, len);
+	if (_readCB)
+	{
+	  _readCB(_readBuffer, &peerAddr, len);
+	}
+	else {
+	  FLOG() << " NO _READCB ";
+	}
+
 	}
   return 0;
 }

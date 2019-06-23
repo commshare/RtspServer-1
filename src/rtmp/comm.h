@@ -1,3 +1,6 @@
 #pragma once
 #include <iostream>
-#define WarnL std::cout
+#include "net/Logger.h"
+#define WarnL FLOG()
+#define InfoL FLOG()
+#define DebugL FLOG()

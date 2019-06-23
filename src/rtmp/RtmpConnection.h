@@ -3,8 +3,11 @@
 
 #include "net/EventLoop.h"
 #include "net/TcpConnection.h"
-#include "amf.h"
+#include "rr_amf.h"
+#include "rtmpserver/src/xop/amf.h"
 #include <vector>
+#include "zlm/TimeTicker.h"
+#include "rtmp/RtmpProtocol.h"
 
 namespace xop
 {
@@ -17,7 +20,7 @@ struct RtmpMessageHeader
     uint8_t timestamp[3];
     uint8_t length[3];
     uint8_t typeId;
-    uint8_t streamId[4]; //å°ç«¯æ ¼å¼
+    uint8_t streamId[4]; //Ğ¡¶Ë¸ñÊ½
 };
 
 struct RtmpMessage 
@@ -40,12 +43,12 @@ struct RtmpMessage
     }
 };
 
-class RtmpConnection : public TcpConnection
+class RtmpConnection : public TcpConnection, public toolkit::RtmpProtocol
 {
 public:    
     enum ConnectionStatus
     {
-	  //è¿™æ˜¯å¤„ç†å®¢æˆ·ç«¯é“¾æ¥çš„æ„æ€ï¼Ÿ
+	  //ÕâÊÇ´¦Àí¿Í»§¶ËÁ´½ÓµÄÒâË¼£¿
         HANDSHAKE_C0C1, 
         HANDSHAKE_C2,
         HANDSHAKE_COMPLETE,
@@ -55,12 +58,12 @@ public:
     
     enum RtmpMessagType
     {
-        RTMP_SET_CHUNK_SIZE     = 0x1 , //è®¾ç½®å—å¤§å°
-        RTMP_AOBRT_MESSAGE      = 0X2 , //ç»ˆæ­¢æ¶ˆæ¯
-        RTMP_ACK                = 0x3 , //ç¡®è®¤
-        RTMP_USER_EVENT         = 0x4 , //ç”¨æˆ·æ§åˆ¶æ¶ˆæ¯
-        RTMP_ACK_SIZE           = 0x5 , //çª—å£å¤§å°ç¡®è®¤
-        RTMP_BANDWIDTH_SIZE     = 0x6 , //è®¾ç½®å¯¹ç«¯å¸¦å®½
+        RTMP_SET_CHUNK_SIZE     = 0x1 , //ÉèÖÃ¿é´óĞ¡
+        RTMP_AOBRT_MESSAGE      = 0X2 , //ÖÕÖ¹ÏûÏ¢
+        RTMP_ACK                = 0x3 , //È·ÈÏ
+        RTMP_USER_EVENT         = 0x4 , //ÓÃ»§¿ØÖÆÏûÏ¢
+        RTMP_ACK_SIZE           = 0x5 , //´°¿Ú´óĞ¡È·ÈÏ
+        RTMP_BANDWIDTH_SIZE     = 0x6 , //ÉèÖÃ¶Ô¶Ë´ø¿í
         RTMP_AUDIO	            = 0x08,
         RTMP_VIDEO              = 0x09,
         RTMP_FLEX_MESSAGE       = 0x11, //amf3
@@ -71,7 +74,7 @@ public:
     
     enum ChunkSreamId
     {
-        CHUNK_CONTROL_ID    = 2, // æ§åˆ¶æ¶ˆæ¯
+        CHUNK_CONTROL_ID    = 2, // ¿ØÖÆÏûÏ¢
         CHUNK_INVOKE_ID     = 3, 
         CHUNK_AUDIO_ID      = 4, 
         CHUNK_VIDEO_ID      = 5, 
@@ -158,10 +161,16 @@ private:
     const uint32_t kStreamId            = 1;
 	//////////////////////////////////////////////////////////////
 	private:
-	  //æ¶ˆè€—çš„æ€»æµé‡
+	  toolkit::Ticker _ticker;//Êı¾İ½ÓÊÕÊ±¼ä
+
+	  //ÏûºÄµÄ×ÜÁ÷Á¿
 	  uint64_t _ui64TotalBytes = 0;
 	private:
-	  void onRecv(const toolkit::Buffer::Ptr &pBuf);
+	  void onProcessCmd(AMFDecoder &dec);
+	  void onRtmpChunk(RtmpPacket &chunkData);
+	  void onSendRawData(const Buffer::Ptr &buffer);
+	  bool onRecv(const toolkit::Buffer::Ptr &pBuf);
+	  void rrsend(const Buffer::Ptr &buffer);
 };
       
 }
