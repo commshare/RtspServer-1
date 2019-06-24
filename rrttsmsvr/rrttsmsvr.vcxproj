@@ -176,6 +176,7 @@
     <ClCompile Include="..\src\net\TcpSocket.cpp" />
     <ClCompile Include="..\src\net\Timer.cpp" />
     <ClCompile Include="..\src\net\Timestamp.cpp" />
+    <ClCompile Include="..\src\rtmp\MediaSource.cpp" />
     <ClCompile Include="..\src\rtmp\rr_amf.cpp" />
     <ClCompile Include="..\src\rtmp\rtmp.cpp" />
     <ClCompile Include="..\src\rtmp\RtmpConnection.cpp" />
@@ -226,6 +227,7 @@
     <ClInclude Include="..\src\net\Timer.h" />
     <ClInclude Include="..\src\net\Timestamp.h" />
     <ClInclude Include="..\src\rtmp\comm.h" />
+    <ClInclude Include="..\src\rtmp\MediaSource.h" />
     <ClInclude Include="..\src\rtmp\rr_amf.h" />
     <ClInclude Include="..\src\rtmp\rtmp.h" />
     <ClInclude Include="..\src\rtmp\RtmpConnection.h" />

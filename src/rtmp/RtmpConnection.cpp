@@ -2,13 +2,16 @@
 #include "rtmpserver/src/xop/RtmpServer.h"
 #include <random>
 #include "rtmp/comm.h"
+#include "zlm/onceToken.h"
 using namespace xop;
+#define LOCK_GUARD(mtx) lock_guard<decltype(mtx)> lck(mtx)
 
 RtmpConnection::RtmpConnection(RtmpServer *rtmpServer, TaskScheduler *taskScheduler, SOCKET sockfd)
     : TcpConnection(taskScheduler, sockfd)
     , m_rtmpServer(rtmpServer)
     , m_taskScheduler(taskScheduler)
     , m_channelPtr(new Channel(sockfd))
+     , _sockFd(sockfd)
     
 {
     this->setReadCallback([this](std::shared_ptr<TcpConnection> conn, xop::BufferReader& buffer) {
@@ -26,6 +29,19 @@ RtmpConnection::RtmpConnection(RtmpServer *rtmpServer, TaskScheduler *taskSchedu
 RtmpConnection::~RtmpConnection()
 {
     
+}
+string RtmpConnection::get_peer_ip() {
+  LOCK_GUARD(_mtx_sockFd);
+
+  return SockUtil::get_peer_ip(_sockFd);
+}
+
+uint16_t RtmpConnection::get_peer_port() {
+  LOCK_GUARD(_mtx_sockFd);
+ // if (!_sockFd) {
+	//return 0;
+ // }
+  return SockUtil::get_peer_port(_sockFd);
 }
 bool RtmpConnection::onRecv(const toolkit::Buffer::Ptr &pBuf) {
   _ticker.resetTime();
@@ -70,33 +86,46 @@ bool RtmpConnection::onRead(BufferReader& buffer) //BufferReader 父类创建
 	return ret;
 }
 void RtmpConnection::onProcessCmd(AMFDecoder &dec) {
-#if  0
-  typedef void (RtmpSession::*rtmpCMDHandle)(AMFDecoder &dec);
+
+  typedef void (RtmpConnection::*rtmpCMDHandle)(AMFDecoder &dec);
   static unordered_map<string, rtmpCMDHandle> g_mapCmd;
-  static onceToken token([]() {
-	g_mapCmd.emplace("connect", &RtmpSession::onCmd_connect);
-	g_mapCmd.emplace("createStream", &RtmpSession::onCmd_createStream);
-	g_mapCmd.emplace("publish", &RtmpSession::onCmd_publish);
-	g_mapCmd.emplace("deleteStream", &RtmpSession::onCmd_deleteStream);
-	g_mapCmd.emplace("play", &RtmpSession::onCmd_play);
-	g_mapCmd.emplace("play2", &RtmpSession::onCmd_play2);
-	g_mapCmd.emplace("seek", &RtmpSession::onCmd_seek);
-	g_mapCmd.emplace("pause", &RtmpSession::onCmd_pause); }, []() {});
+  static toolkit::onceToken token([]() {
+	g_mapCmd.emplace("connect", &RtmpConnection::onCmd_connect);
+	g_mapCmd.emplace("createStream", &RtmpConnection::onCmd_createStream);
+	g_mapCmd.emplace("publish", &RtmpConnection::onCmd_publish);
+	g_mapCmd.emplace("deleteStream", &RtmpConnection::onCmd_deleteStream);
+	g_mapCmd.emplace("play", &RtmpConnection::onCmd_play);
+	g_mapCmd.emplace("play2", &RtmpConnection::onCmd_play2);
+	g_mapCmd.emplace("seek", &RtmpConnection::onCmd_seek);
+	g_mapCmd.emplace("pause", &RtmpConnection::onCmd_pause); }, []() {});
 
   std::string method = dec.load<std::string>();
   auto it = g_mapCmd.find(method);
   if (it == g_mapCmd.end()) {
-	TraceP(this) << "can not support cmd:" << method;
+	TraceP(/*this*/) <<get_peer_ip()<<" port"<<get_peer_port()<< " can not support cmd:" << method;
 	return;
   }
   _dNowReqID = dec.load<double>();
   auto fun = it->second;
   (this->*fun)(dec);
-#endif
+
 }
+
+void RtmpConnection::setMetaData(AMFDecoder& dec) {
+  if (!_pPublisherSrc) {
+	throw std::runtime_error("not a publisher");
+  }
+  std::string type = dec.load<std::string>();
+  if (type != "onMetaData") {
+	throw std::runtime_error("can only set metadata");
+  }
+  _pPublisherSrc->onGetMetaData(dec.load<AMFValue>());
+}
+
+
 void RtmpConnection::onRtmpChunk(RtmpPacket &chunkData) {
-  FLOG() << "chunkData.typeId " << chunkData.typeId;
-  #if 0 
+  FLOG() << "onRtmpChunk chunkData.typeId " << chunkData.typeId;
+  #if 1 
   switch (chunkData.typeId) {
 
 
@@ -111,7 +140,7 @@ void RtmpConnection::onRtmpChunk(RtmpPacket &chunkData) {
   case MSG_DATA3: {
 	AMFDecoder dec(chunkData.strBuf, chunkData.typeId == MSG_CMD3 ? 1 : 0);
 	std::string type = dec.load<std::string>();
-	TraceP(this) << "notify:" << type;
+	TraceP(/*this*/) << "notify:" << type;
 	if (type == "@setDataFrame") {
 	  setMetaData(dec);
 	}
@@ -135,6 +164,72 @@ void RtmpConnection::onRtmpChunk(RtmpPacket &chunkData) {
 
   }
 #endif
+}
+void RtmpConnection::onCmd_connect(AMFDecoder& dec)
+{
+  auto params = dec.load<AMFValue>();
+  double amfVer = 0;
+  AMFValue objectEncoding = params["objectEncoding"];
+  if (objectEncoding) {
+	amfVer = objectEncoding.as_number();
+  }
+  ///////////set chunk size////////////////
+  sendChunkSize(60000);
+  ////////////window Acknowledgement size/////
+  sendAcknowledgementSize(5000000);
+  ///////////set peerBandwidth////////////////
+  sendPeerBandwidth(5000000);
+
+  _mediaInfo._app = params["app"].as_string();
+  _strTcUrl = params["tcUrl"].as_string();
+  if (_strTcUrl.empty()) {
+	//defaultVhost:默认vhost
+	_strTcUrl = string(RTMP_SCHEMA) + "://" + DEFAULT_VHOST + "/" + _mediaInfo._app;
+  }
+  bool ok = true; //(app == APP_NAME);
+  AMFValue version(AMF_OBJECT);
+  version.set("fmsVer", "FMS/3,0,1,123");
+  version.set("capabilities", 31.0);
+  AMFValue status(AMF_OBJECT);
+  status.set("level", ok ? "status" : "error");
+  status.set("code", ok ? "NetConnection.Connect.Success" : "NetConnection.Connect.InvalidApp");
+  status.set("description", ok ? "Connection succeeded." : "InvalidApp.");
+  status.set("objectEncoding", amfVer);
+  sendReply(ok ? "_result" : "_error", version, status);
+  if (!ok) {
+	throw std::runtime_error("Unsupported application: " + _mediaInfo._app);
+  }
+
+  AMFEncoder invoke;
+  invoke << "onBWDone" << 0.0 << nullptr;
+  sendResponse(MSG_CMD, invoke.data());
+}
+void RtmpConnection::onCmd_createStream(AMFDecoder& dec)
+{
+
+}
+
+void RtmpConnection::onCmd_publish(AMFDecoder& dec)
+{
+
+}
+void RtmpConnection::onCmd_deleteStream(AMFDecoder& dec)
+{
+}
+
+void RtmpConnection::onCmd_play(AMFDecoder& dec)
+{
+}
+void RtmpConnection::onCmd_play2(AMFDecoder& dec)
+{
+}
+void RtmpConnection::onCmd_seek(AMFDecoder& dec)
+{
+
+}
+void RtmpConnection::onCmd_pause(AMFDecoder& dec)
+{
+
 }
 void RtmpConnection::rrsend(const Buffer::Ptr &buffer)
 {

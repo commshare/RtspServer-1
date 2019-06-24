@@ -8,6 +8,7 @@
 #include <vector>
 #include "zlm/TimeTicker.h"
 #include "rtmp/RtmpProtocol.h"
+#include "rtmp/MediaSource.h"
 
 namespace xop
 {
@@ -162,6 +163,9 @@ private:
 	//////////////////////////////////////////////////////////////
 	private:
 	  toolkit::Ticker _ticker;//数据接收时间
+	  toolkit::MediaInfo _mediaInfo;
+	  double _dNowReqID = 0;
+	  mutable MutexWrapper<recursive_mutex> _mtx_sockFd;
 
 	  //消耗的总流量
 	  uint64_t _ui64TotalBytes = 0;
@@ -171,6 +175,22 @@ private:
 	  void onSendRawData(const Buffer::Ptr &buffer);
 	  bool onRecv(const toolkit::Buffer::Ptr &pBuf);
 	  void rrsend(const Buffer::Ptr &buffer);
+	  std::string get_peer_ip();
+	  uint16_t get_peer_port();
+	  int _sockFd;
+	  private:
+		void onCmd_connect(AMFDecoder& dec);
+		void onCmd_createStream(AMFDecoder& dec);
+
+		void onCmd_publish(AMFDecoder& dec);
+		void onCmd_deleteStream(AMFDecoder& dec);
+
+		void onCmd_play(AMFDecoder& dec);
+		void onCmd_play2(AMFDecoder& dec);
+		void onCmd_seek(AMFDecoder& dec);
+		void onCmd_pause(AMFDecoder& dec);
+		void setMetaData(AMFDecoder& dec);
+
 };
       
 }

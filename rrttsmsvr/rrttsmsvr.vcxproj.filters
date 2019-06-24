@@ -168,6 +168,9 @@
     <ClCompile Include="..\src\zlm\File.cpp">
       <Filter>zlm</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\rtmp\MediaSource.cpp">
+      <Filter>rtmp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\net\Acceptor.h">
@@ -336,6 +339,9 @@
       <Filter>zlm</Filter>
     </ClInclude>
     <ClInclude Include="..\src\rtmp\comm.h">
+      <Filter>rtmp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\rtmp\MediaSource.h">
       <Filter>rtmp</Filter>
     </ClInclude>
   </ItemGroup>
