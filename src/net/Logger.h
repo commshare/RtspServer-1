@@ -46,7 +46,7 @@ namespace xop
 	  m_stream << "[" << xop::Timestamp::localtime() << "]";
 	}
 	~XLog() {
-	  log_noLevelCmp(m_level, "[%s::%s():%d]%s", m_stream.str().c_str(), m_file, m_func, m_line); }
+	  log_noLevelCmp(m_level, "[%s::%s():%d]%s",  m_file, m_func, m_line,m_stream.str().c_str()) ; }
 	std::ostream& stream() { return m_stream; }
   private:
 	const char* basename(const char* filepath)
