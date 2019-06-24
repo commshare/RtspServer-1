@@ -31,6 +31,7 @@ bool RtmpConnection::onRecv(const toolkit::Buffer::Ptr &pBuf) {
   _ticker.resetTime();
   try {
 	_ui64TotalBytes += pBuf->size();
+	FLOG() << "----------onRecv SIZE " << pBuf->size();
 	onParseRtmp(pBuf->data(), pBuf->size());
 	return true;
   }
@@ -190,6 +191,7 @@ bool RtmpConnection::handleHandshake(BufferReader& buffer)
     } 
     else if(m_connStatus == HANDSHAKE_C2)
     {
+	  FLOG() << "HANDSHAKE_C2 bufSize : " << bufSize;
         if(bufSize < 1536) //c0c1
         {           
             return true;

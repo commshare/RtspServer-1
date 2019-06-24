@@ -1,0 +1,84 @@
+[2019-06-24 18:34:21][INFO] RTMP Server listen on 1935.
+
+[1][21952][acceptor.cpp::xop::Acceptor::handleAccept():45][2019-06-24 18:34:28]handleAccept::TCP ACCEPT NEW FD 244
+[1][21952][tcpserver.cpp::xop::TcpServer::{ctor}::<lambda_9cf5f7bb494c9edae77f575edf43732a>::operator ()():23][2019-06-24 18:34:28]setNewConnectionCallback NEW CONN FD 244
+[1][21952][rtmpserver.cpp::xop::RtmpServer::newConnection():28][2019-06-24 18:34:28]newConnection RtmpConnection244
+[1][13276][utils.cpp::toolkit::initMillisecondThread::<lambda_4222296d1e4f05b454d4377f5693a93d>::operator ()():312][2019-06-24 18:34:28]Stamp thread started![
+1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:34:28] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:34:28]BufferReader size() 1537
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:34:28]----------onRecv SIZE 1537
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:34:28] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:34:28]BufferReader size() 1536
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:34:28]----------onRecv SIZE 1536
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_C2():522][2019-06-24 18:34:28]toolkit::RtmpProtocol::handle_C2
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_C2():529][2019-06-24 18:34:28]握手结束，进入命令模式
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:34:28] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:34:28]BufferReader size() 253
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:34:28]----------onRecv SIZE 253
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRtmpChunk():98][2019-06-24 18:34:28]chunkData.typeId 
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:34:28] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:34:28]BufferReader size() 16
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:34:28]----------onRecv SIZE 16
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_rtmpChunk():718][2019-06-24 18:34:28]MSG_WIN_SIZE:2500000
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():92][2019-06-24 18:34:58]
+[1][21952][tcpconnection.cpp::xop::TcpConnection::handleRead():81][2019-06-24 18:34:58]====READ NO DATA, CLOSE
+[1][21952][timeticker.h::toolkit::Ticker::~Ticker():49][2019-06-24 18:34:58]take time:36632ms
+
+[1][21952][acceptor.cpp::xop::Acceptor::handleAccept():45][2019-06-24 18:34:58]handleAccept::TCP ACCEPT NEW FD 244
+[1][21952][tcpserver.cpp::xop::TcpServer::{ctor}::<lambda_9cf5f7bb494c9edae77f575edf43732a>::operator ()():23][2019-06-24 18:34:58]setNewConnectionCallback NEW CONN FD 244
+[1][21952][rtmpserver.cpp::xop::RtmpServer::newConnection():28][2019-06-24 18:34:58]newConnection RtmpConnection244
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:34:58] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:34:58]BufferReader size() 1537
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:34:58]----------onRecv SIZE 1537
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:34:58] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:34:58]BufferReader size() 1536
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:34:58]----------onRecv SIZE 1536
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_C2():522][2019-06-24 18:34:58]toolkit::RtmpProtocol::handle_C2
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_C2():529][2019-06-24 18:34:58]握手结束，进入命令模式
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:34:58] NO _READCB
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:34:58] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:34:58]BufferReader size() 129
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:34:58]----------onRecv SIZE 129
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():92][2019-06-24 18:35:28]
+[1][21952][tcpconnection.cpp::xop::TcpConnection::handleRead():81][2019-06-24 18:35:28]====READ NO DATA, CLOSE
+[1][21952][timeticker.h::toolkit::Ticker::~Ticker():49][2019-06-24 18:35:28]take time:30019ms
+
+[1][21952][acceptor.cpp::xop::Acceptor::handleAccept():45][2019-06-24 18:35:28]handleAccept::TCP ACCEPT NEW FD 252
+[1][21952][tcpserver.cpp::xop::TcpServer::{ctor}::<lambda_9cf5f7bb494c9edae77f575edf43732a>::operator ()():23][2019-06-24 18:35:28]setNewConnectionCallback NEW CONN FD 252
+[1][21952][rtmpserver.cpp::xop::RtmpServer::newConnection():28][2019-06-24 18:35:28]newConnection RtmpConnection252
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:35:28] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:35:28]BufferReader size() 1537
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:35:28]----------onRecv SIZE 1537
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:35:28] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:35:28]BufferReader size() 1536
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:35:28]----------onRecv SIZE 1536
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_C2():522][2019-06-24 18:35:28]toolkit::RtmpProtocol::handle_C2
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_C2():529][2019-06-24 18:35:28]握手结束，进入命令模式
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:35:28] NO _READCB
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:35:28] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:35:28]BufferReader size() 4
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:35:28]----------onRecv SIZE 4
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():92][2019-06-24 18:35:58]
+[1][21952][tcpconnection.cpp::xop::TcpConnection::handleRead():81][2019-06-24 18:35:58]====READ NO DATA, CLOSE
+[1][21952][timeticker.h::toolkit::Ticker::~Ticker():49][2019-06-24 18:35:58]take time:30016ms
+
+[1][21952][acceptor.cpp::xop::Acceptor::handleAccept():45][2019-06-24 18:35:58]handleAccept::TCP ACCEPT NEW FD 252
+[1][21952][tcpserver.cpp::xop::TcpServer::{ctor}::<lambda_9cf5f7bb494c9edae77f575edf43732a>::operator ()():23][2019-06-24 18:35:58]setNewConnectionCallback NEW CONN FD 252
+[1][21952][rtmpserver.cpp::xop::RtmpServer::newConnection():28][2019-06-24 18:35:58]newConnection RtmpConnection252
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:35:58] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:35:58]BufferReader size() 1537
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:35:58]----------onRecv SIZE 1537
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:35:58] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:35:58]BufferReader size() 1536
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:35:58]----------onRecv SIZE 1536
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_C2():522][2019-06-24 18:35:58]toolkit::RtmpProtocol::handle_C2
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_C2():529][2019-06-24 18:35:58]握手结束，进入命令模式
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():114][2019-06-24 18:35:58] NO _READCB
+[1][21952][bufferreader.h::xop::BufferReader::size():123][2019-06-24 18:35:58]BufferReader size() 269
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRecv():34][2019-06-24 18:35:58]----------onRecv SIZE 269
+[1][21952][rtmpconnection.cpp::xop::RtmpConnection::onRtmpChunk():98][2019-06-24 18:35:58]chunkData.typeId 
+[1][21952][rtmpprotocol.cpp::toolkit::RtmpProtocol::handle_rtmpChunk():718][2019-06-24 18:35:58]MSG_WIN_SIZE:2500000
+[1][21952][bufferreader.cpp::xop::BufferReader::onRead():92][2019-06-24 18:36:28]
+[1][21952][tcpconnection.cpp::xop::TcpConnection::handleRead():81][2019-06-24 18:36:28]====READ NO DATA, CLOSE
+[1][21952][timeticker.h::toolkit::Ticker::~Ticker():49][2019-06-24 18:36:28]take time:30018ms
+

@@ -349,10 +349,10 @@ void RtmpProtocol::handle_C0C1() {
 void RtmpProtocol::handle_C1_simple(){
 	//发送S0
 	char handshake_head = HANDSHAKE_PLAINTEXT;
-	onSendRawData(obtainBuffer(&handshake_head, 1)); //s0 只有一个字节，0x03
+	onSendRawData(obtainBuffer(&handshake_head, 1));
 	//发送S1
 	RtmpHandshake s1(0);
-	onSendRawData(obtainBuffer((char *) &s1, C1_HANDSHARK_SIZE)); //1536
+	onSendRawData(obtainBuffer((char *) &s1, C1_HANDSHARK_SIZE));
 	//发送S2
 	onSendRawData(obtainBuffer(_strRcvBuf.data() + 1, C1_HANDSHARK_SIZE));
 	//等待C2
@@ -791,7 +791,7 @@ void RtmpProtocol::handle_rtmpChunk(RtmpPacket& chunkData) {
 BufferRaw::Ptr RtmpProtocol::obtainBuffer() {
     return std::make_shared<BufferRaw>() ;//_bufferPool.obtain();
 }
-//这个是创建并分配指定大小的内存啊
+
 BufferRaw::Ptr RtmpProtocol::obtainBuffer(const void *data, int len) {
 	auto buffer = obtainBuffer();
 	buffer->assign((const char *)data,len);

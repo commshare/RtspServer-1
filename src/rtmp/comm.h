@@ -5,4 +5,4 @@
 #define InfoL FLOG()
 #define DebugL FLOG()
 
-#define USE_RR_RTMP 0
+#define USE_RR_RTMP 1

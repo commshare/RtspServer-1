@@ -110,7 +110,7 @@ public:
         if(size <=0 ){
             size = strlen(data);
         }
-		//用new来分配指定大小的内存
+		//分配指定大小的内存
         setCapacity(size + 1);
         memcpy(_data,data,size);
         _data[size] = '\0';
