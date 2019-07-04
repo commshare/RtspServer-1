@@ -31,6 +31,9 @@
     <Filter Include="rtmpserver">
       <UniqueIdentifier>{66f0b6d0-9aeb-42af-a70d-53c379f7e725}</UniqueIdentifier>
     </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{2b6d7eda-20e6-41a0-ac8f-bfc9385b9c26}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\example\rtsp_h264_file.cpp">
@@ -168,8 +171,11 @@
     <ClCompile Include="..\src\zlm\File.cpp">
       <Filter>zlm</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\rtmp\MediaSource.cpp">
-      <Filter>rtmp</Filter>
+    <ClCompile Include="..\src\common\config.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\common\mini.cpp">
+      <Filter>common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -341,8 +347,11 @@
     <ClInclude Include="..\src\rtmp\comm.h">
       <Filter>rtmp</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\rtmp\MediaSource.h">
-      <Filter>rtmp</Filter>
+    <ClInclude Include="..\src\common\config.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\common\mini.h">
+      <Filter>common</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

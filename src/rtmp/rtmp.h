@@ -108,7 +108,7 @@ public:
 class RtmpPacket : public toolkit::Buffer {
 public:
   typedef std::shared_ptr<RtmpPacket> Ptr;
-  uint8_t typeId;
+  uint8_t typeId; //Õâ¸öÊÇÉ¶
   uint32_t bodySize = 0;
   uint32_t timeStamp = 0;
   bool hasAbsStamp = false;

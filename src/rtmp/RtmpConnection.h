@@ -163,13 +163,24 @@ private:
 	//////////////////////////////////////////////////////////////
 	private:
 	  toolkit::Ticker _ticker;//数据接收时间
+	  toolkit::SmoothTicker _stampTicker[2];//时间戳生产器
+	  std::string _strTcUrl;
+
 	  toolkit::MediaInfo _mediaInfo;
 	  double _dNowReqID = 0;
 	  mutable MutexWrapper<recursive_mutex> _mtx_sockFd;
+	 // std::shared_ptr<RtmpMediaSource> _pPublisherSrc;
 
 	  //消耗的总流量
 	  uint64_t _ui64TotalBytes = 0;
 	private:
+	  template<typename first, typename second>
+	  inline void sendReply(const char* str, const first& reply, const second& status) {
+		AMFEncoder invoke;
+		invoke << str << _dNowReqID << reply << status;
+		sendResponse(MSG_CMD, invoke.data());
+	  }
+
 	  void onProcessCmd(AMFDecoder &dec);
 	  void onRtmpChunk(RtmpPacket &chunkData);
 	  void onSendRawData(const Buffer::Ptr &buffer);

@@ -318,6 +318,7 @@ void RtmpProtocol::handle_S0S1S2(const function<void()> &callBack) {
 	//握手结束
 	_nextHandle = [this]() {
 		//握手结束并且开始进入解析命令模式
+	  FLOG("handle_rtmp");
 		handle_rtmp();
 	};
 	callBack();
@@ -526,7 +527,7 @@ void RtmpProtocol::handle_C2() {
 		return;
 	}
 	_strRcvBuf.erase(0, C1_HANDSHARK_SIZE);
-	FLOG() << "握手结束，进入命令模式";
+	FLOG() << "握手结束，进入命令模式 handle_rtmp";
 	//握手结束，进入命令模式
 	if (!_strRcvBuf.empty()) {
 		handle_rtmp();
@@ -537,7 +538,8 @@ void RtmpProtocol::handle_C2() {
 }
 
 void RtmpProtocol::handle_rtmp() {
-	while (!_strRcvBuf.empty()) {
+	while (!_strRcvBuf.empty()) 
+	{
 		uint8_t flags = _strRcvBuf[0];
 		int iOffset = 0;
 		static const size_t HEADER_LENGTH[] = { 12, 8, 4, 1 };
@@ -616,12 +618,14 @@ void RtmpProtocol::handle_rtmp() {
         chunkData.strBuf.append(_strRcvBuf, iHeaderLen + iOffset, iMore);
 		_strRcvBuf.erase(0, iHeaderLen + iOffset + iMore);
         
-		if (chunkData.strBuf.size() == chunkData.bodySize) {
+		if (chunkData.strBuf.size() == chunkData.bodySize) 
+		{
             //frame is ready
             _iNowStreamID = chunkData.streamId;
             chunkData.timeStamp = chunkData.deltaStamp + (chunkData.hasAbsStamp ? 0 : chunkData.timeStamp);
             
-			if(chunkData.bodySize){
+			if(chunkData.bodySize)
+			{
 				handle_rtmpChunk(chunkData);
 			}
 			chunkData.strBuf.clear();
@@ -633,6 +637,7 @@ void RtmpProtocol::handle_rtmp() {
 }
 
 void RtmpProtocol::handle_rtmpChunk(RtmpPacket& chunkData) {
+  FLOG()<<"handle_rtmpChunk RtmpPacket TYPEID :"<< chunkData.typeId;
 	switch (chunkData.typeId) {
 		case MSG_ACK: {
 			if (chunkData.strBuf.size() < 4) {

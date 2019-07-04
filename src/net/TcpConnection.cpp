@@ -135,6 +135,7 @@ void TcpConnection::handleWrite()
 
 void TcpConnection::handleClose()
 {
+  FLOG(" TcpConnection::handleClose");
     std::lock_guard<std::mutex> lock(_mutex);
     if (!_isClosed)
     {

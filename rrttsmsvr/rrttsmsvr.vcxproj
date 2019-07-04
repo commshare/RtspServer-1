@@ -159,6 +159,8 @@
     <ClCompile Include="..\rtmpserver\src\xop\amf.cpp" />
     <ClCompile Include="..\rtmpserver\src\xop\RtmpServer.cpp" />
     <ClCompile Include="..\rtmpserver\src\xop\RtmpSession.cpp" />
+    <ClCompile Include="..\src\common\config.cpp" />
+    <ClCompile Include="..\src\common\mini.cpp" />
     <ClCompile Include="..\src\net\Acceptor.cpp" />
     <ClCompile Include="..\src\net\BufferReader.cpp" />
     <ClCompile Include="..\src\net\BufferWriter.cpp" />
@@ -176,7 +178,6 @@
     <ClCompile Include="..\src\net\TcpSocket.cpp" />
     <ClCompile Include="..\src\net\Timer.cpp" />
     <ClCompile Include="..\src\net\Timestamp.cpp" />
-    <ClCompile Include="..\src\rtmp\MediaSource.cpp" />
     <ClCompile Include="..\src\rtmp\rr_amf.cpp" />
     <ClCompile Include="..\src\rtmp\rtmp.cpp" />
     <ClCompile Include="..\src\rtmp\RtmpConnection.cpp" />
@@ -204,6 +205,8 @@
     <ClInclude Include="..\rtmpserver\src\xop\amf.h" />
     <ClInclude Include="..\rtmpserver\src\xop\RtmpServer.h" />
     <ClInclude Include="..\rtmpserver\src\xop\RtmpSession.h" />
+    <ClInclude Include="..\src\common\config.h" />
+    <ClInclude Include="..\src\common\mini.h" />
     <ClInclude Include="..\src\net\Acceptor.h" />
     <ClInclude Include="..\src\net\BufferReader.h" />
     <ClInclude Include="..\src\net\BufferWriter.h" />
@@ -227,7 +230,6 @@
     <ClInclude Include="..\src\net\Timer.h" />
     <ClInclude Include="..\src\net\Timestamp.h" />
     <ClInclude Include="..\src\rtmp\comm.h" />
-    <ClInclude Include="..\src\rtmp\MediaSource.h" />
     <ClInclude Include="..\src\rtmp\rr_amf.h" />
     <ClInclude Include="..\src\rtmp\rtmp.h" />
     <ClInclude Include="..\src\rtmp\RtmpConnection.h" />

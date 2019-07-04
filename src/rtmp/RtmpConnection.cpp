@@ -12,8 +12,10 @@ RtmpConnection::RtmpConnection(RtmpServer *rtmpServer, TaskScheduler *taskSchedu
     , m_taskScheduler(taskScheduler)
     , m_channelPtr(new Channel(sockfd))
      , _sockFd(sockfd)
+  , _mtx_sockFd(true) //socket.cpp里 zlmedia
     
 {
+  
     this->setReadCallback([this](std::shared_ptr<TcpConnection> conn, xop::BufferReader& buffer) {
 	  //rtmp只传递BufferReader用
         return this->onRead(buffer);
@@ -47,7 +49,7 @@ bool RtmpConnection::onRecv(const toolkit::Buffer::Ptr &pBuf) {
   _ticker.resetTime();
   try {
 	_ui64TotalBytes += pBuf->size();
-	FLOG() << "----------onRecv SIZE " << pBuf->size();
+	FLOG() << "---onParseRtmp---RtmpConnection::onRecv SIZE " << pBuf->size();
 	onParseRtmp(pBuf->data(), pBuf->size());
 	return true;
   }
@@ -102,7 +104,7 @@ void RtmpConnection::onProcessCmd(AMFDecoder &dec) {
   std::string method = dec.load<std::string>();
   auto it = g_mapCmd.find(method);
   if (it == g_mapCmd.end()) {
-	TraceP(/*this*/) <<get_peer_ip()<<" port"<<get_peer_port()<< " can not support cmd:" << method;
+	FLOG() <<get_peer_ip()<<" port"<<get_peer_port()<< " can not support cmd:" << method;
 	return;
   }
   _dNowReqID = dec.load<double>();
@@ -112,14 +114,17 @@ void RtmpConnection::onProcessCmd(AMFDecoder &dec) {
 }
 
 void RtmpConnection::setMetaData(AMFDecoder& dec) {
-  if (!_pPublisherSrc) {
-	throw std::runtime_error("not a publisher");
-  }
+ // if (!_pPublisherSrc) {
+	//throw std::runtime_error("not a publisher");
+ // }
+  FLOG() << "I THINK THIS IS A PUBLISHER ";
   std::string type = dec.load<std::string>();
   if (type != "onMetaData") {
 	throw std::runtime_error("can only set metadata");
   }
-  _pPublisherSrc->onGetMetaData(dec.load<AMFValue>());
+  FLOG() << "SAVE META DATA ";
+  //单纯的保存起来
+  //_pPublisherSrc->onGetMetaData(dec.load<AMFValue>());
 }
 
 
@@ -135,12 +140,12 @@ void RtmpConnection::onRtmpChunk(RtmpPacket &chunkData) {
 	onProcessCmd(dec);
   }
 				 break;
-
+   //下面是数据处理？
   case MSG_DATA:
   case MSG_DATA3: {
 	AMFDecoder dec(chunkData.strBuf, chunkData.typeId == MSG_CMD3 ? 1 : 0);
 	std::string type = dec.load<std::string>();
-	TraceP(/*this*/) << "notify:" << type;
+	TraceP(/*this*/) << "onRtmpChunk notify:" << type;
 	if (type == "@setDataFrame") {
 	  setMetaData(dec);
 	}
@@ -148,18 +153,25 @@ void RtmpConnection::onRtmpChunk(RtmpPacket &chunkData) {
 				  break;
   case MSG_AUDIO:
   case MSG_VIDEO: {
-	if (!_pPublisherSrc) {
-	  throw std::runtime_error("Not a rtmp publisher!");
-	}
-	GET_CONFIG(bool, rtmp_modify_stamp, Rtmp::kModifyStamp);
-	if (rtmp_modify_stamp) {
+	FLOG() << "Not a rtmp publisher!";
+	//if (!_pPublisherSrc) {
+	//  throw std::runtime_error("Not a rtmp publisher!");
+	//}
+
+	//是否要修改时间戳呢？貌似默认是true啊
+	//GET_CONFIG(bool, rtmp_modify_stamp, Rtmp::kModifyStamp);
+	//FLOG() << "GET CONFIG :kModifyStamp : " << rtmp_modify_stamp;
+	bool rtmp_modify_stamp = true;
+	if (rtmp_modify_stamp)
+	{
 	  chunkData.timeStamp = _stampTicker[chunkData.typeId % 2].elapsedTime();
 	}
-	_pPublisherSrc->onWrite(std::make_shared<RtmpPacket>(std::move(chunkData)));
+	//chunkData 本身就是一个RtmpPacket的引用，这里用MOVE优势是？ TODO 
+	//_pPublisherSrc->onWrite(std::make_shared<RtmpPacket>(std::move(chunkData)));
   }
 				  break;
   default:
-	WarnP(this) << "unhandled message:" << (int)chunkData.typeId << hexdump(chunkData.strBuf.data(), chunkData.strBuf.size());
+	FLOG(/*this*/) << "unhandled message:" << (int)chunkData.typeId << hexdump(chunkData.strBuf.data(), chunkData.strBuf.size());
 	break;
 
   }
@@ -195,6 +207,7 @@ void RtmpConnection::onCmd_connect(AMFDecoder& dec)
   status.set("code", ok ? "NetConnection.Connect.Success" : "NetConnection.Connect.InvalidApp");
   status.set("description", ok ? "Connection succeeded." : "InvalidApp.");
   status.set("objectEncoding", amfVer);
+  //发送应答
   sendReply(ok ? "_result" : "_error", version, status);
   if (!ok) {
 	throw std::runtime_error("Unsupported application: " + _mediaInfo._app);
