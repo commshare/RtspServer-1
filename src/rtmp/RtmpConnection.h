@@ -173,6 +173,8 @@ private:
 
 	  //消耗的总流量
 	  uint64_t _ui64TotalBytes = 0;
+
+
 	private:
 	  template<typename first, typename second>
 	  inline void sendReply(const char* str, const first& reply, const second& status) {

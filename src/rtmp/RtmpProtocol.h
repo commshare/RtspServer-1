@@ -116,6 +116,19 @@ private:
 	//////////Rtmp parser//////////
 	string _strRcvBuf;
 	function<void()> _nextHandle;
+
+	std::string next_hanlder_name_;
+	std::string curHandler_name_;
+	void showHandle(std::string cur=std::string(""), std::string next=std::string(""))
+	{
+	  if (!cur.empty() && !next.empty())
+	  {
+		next_hanlder_name_ = next;
+		curHandler_name_ = cur;
+	  }
+
+	  FLOG() << "======NEXT " << next_hanlder_name_ << "  CUR " << curHandler_name_;
+	}
 };
 
 } /* namespace mediakit */

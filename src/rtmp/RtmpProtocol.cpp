@@ -79,6 +79,7 @@ RtmpProtocol::RtmpProtocol() {
 	_nextHandle = [this](){
 		handle_C0C1();
 	};
+	showHandle("RtmpProtocol", "handle_C0C1");
 }
 RtmpProtocol::~RtmpProtocol() {
 	reset();
@@ -106,6 +107,7 @@ void RtmpProtocol::reset() {
 	_nextHandle = [this]() {
 		handle_C0C1();
 	};
+	showHandle(curHandler_name_,"handle_C0C1");
 }
 
 void RtmpProtocol::sendAcknowledgement(uint32_t ui32Size) {
@@ -285,7 +287,7 @@ void RtmpProtocol::onParseRtmp(const char *pcRawData, int iSize) {
  // {
 	//FLOG() << "onParseRtmp " << pcRawData;
  // }
- 
+  showHandle();
 	_strRcvBuf.append(pcRawData, iSize);
 	auto cb = _nextHandle;
 	cb();
@@ -298,6 +300,7 @@ void RtmpProtocol::startClientSession(const function<void()> &callBack) {
 	onSendRawData(obtainBuffer(&handshake_head, 1));
 	RtmpHandshake c1(0);
 	onSendRawData(obtainBuffer((char *) (&c1), sizeof(c1)));
+	showHandle("startClientSession","handle_S0S1S2");
 	_nextHandle = [this,callBack]() {
 		//等待 S0+S1+S2
 		handle_S0S1S2(callBack);
@@ -315,6 +318,8 @@ void RtmpProtocol::handle_S0S1S2(const function<void()> &callBack) {
 	const char *pcC2 = _strRcvBuf.data() + 1;
 	onSendRawData(obtainBuffer(pcC2, C1_HANDSHARK_SIZE));
 	_strRcvBuf.erase(0, 1 + 2 * C1_HANDSHARK_SIZE);
+	showHandle("handle_S0S1S2","handle_rtmp");
+
 	//握手结束
 	_nextHandle = [this]() {
 		//握手结束并且开始进入解析命令模式
@@ -356,6 +361,7 @@ void RtmpProtocol::handle_C1_simple(){
 	onSendRawData(obtainBuffer((char *) &s1, C1_HANDSHARK_SIZE)); //1536
 	//发送S2
 	onSendRawData(obtainBuffer(_strRcvBuf.data() + 1, C1_HANDSHARK_SIZE));
+	showHandle("handle_C1_simple", "handle_C2");
 	//等待C2
 	_nextHandle = [this]() {
 		handle_C2();
@@ -532,112 +538,128 @@ void RtmpProtocol::handle_C2() {
 	if (!_strRcvBuf.empty()) {
 		handle_rtmp();
 	}
+	curHandler_name_ = "handle_C2";
+	next_hanlder_name_ = "handle_rtmp";
+	showHandle("handle_C2", "handle_rtmp");
 	_nextHandle = [this]() {
 		handle_rtmp();
 	};
 }
 
 void RtmpProtocol::handle_rtmp() {
-	while (!_strRcvBuf.empty()) 
-	{
-		uint8_t flags = _strRcvBuf[0];
-		int iOffset = 0;
-		static const size_t HEADER_LENGTH[] = { 12, 8, 4, 1 };
-		size_t iHeaderLen = HEADER_LENGTH[flags >> 6];
-		_iNowChunkID = flags & 0x3f;
-        if(_iNowChunkID >10){
-            int i=0;
-            i++;
-        }
-		switch (_iNowChunkID) {
-		case 0: {
-			//0 值表示二字节形式，并且 ID 范围 64 - 319
-			//(第二个字节 + 64)。
-			if (_strRcvBuf.size() < 2) {
-				//need more data
-				return;
-			}
-			_iNowChunkID = 64 + (uint8_t) (_strRcvBuf[1]);
-			iOffset = 1;
-		}
-			break;
-		case 1: {
-			//1 值表示三字节形式，并且 ID 范围为 64 - 65599
-			//((第三个字节) * 256 + 第二个字节 + 64)。
-			if (_strRcvBuf.size() < 3) {
-				//need more data
-				return;
-			}
-			_iNowChunkID = 64 + ((uint8_t) (_strRcvBuf[2]) << 8) + (uint8_t) (_strRcvBuf[1]);
-			iOffset = 2;
-		}
-			break;
-		default:
-			//带有 2 值的块流 ID 被保留，用于下层协议控制消息和命令。
-			break;
-		}
-
-		if (_strRcvBuf.size() < iHeaderLen + iOffset) {
-			//need more data
-			return;
-		}
-		RtmpHeader &header = *((RtmpHeader *) (_strRcvBuf.data() + iOffset));
-		auto &chunkData = _mapChunkData[_iNowChunkID];
-		chunkData.chunkId = _iNowChunkID;
-		switch (iHeaderLen) {
-		case 12:
-            chunkData.hasAbsStamp = true;
-			chunkData.streamId = load_le32(header.streamId);
-		case 8:
-			chunkData.bodySize = load_be24(header.bodySize);
-			chunkData.typeId = header.typeId;
-		case 4:
-			chunkData.deltaStamp = load_be24(header.timeStamp);
-            chunkData.hasExtStamp = chunkData.deltaStamp == 0xFFFFFF;
-		}
-		
-        if (chunkData.hasExtStamp) {
-			if (_strRcvBuf.size() < iHeaderLen + iOffset + 4) {
-				//need more data
-				return;
-			}
-            chunkData.deltaStamp = load_be32(_strRcvBuf.data() + iOffset + iHeaderLen);
-			iOffset += 4;
-		}
-		
-        if (chunkData.bodySize < chunkData.strBuf.size()) {
-			throw std::runtime_error("非法的bodySize");
-		}
-        
-		auto iMore = min(_iChunkLenIn, chunkData.bodySize - chunkData.strBuf.size());
-		if (_strRcvBuf.size() < iHeaderLen + iOffset + iMore) {
-			//need more data
-			return;
-		}
-		
-        chunkData.strBuf.append(_strRcvBuf, iHeaderLen + iOffset, iMore);
-		_strRcvBuf.erase(0, iHeaderLen + iOffset + iMore);
-        
-		if (chunkData.strBuf.size() == chunkData.bodySize) 
-		{
-            //frame is ready
-            _iNowStreamID = chunkData.streamId;
-            chunkData.timeStamp = chunkData.deltaStamp + (chunkData.hasAbsStamp ? 0 : chunkData.timeStamp);
-            
-			if(chunkData.bodySize)
-			{
-				handle_rtmpChunk(chunkData);
-			}
-			chunkData.strBuf.clear();
-            chunkData.hasAbsStamp = false;
-            chunkData.hasExtStamp = false;
-            chunkData.deltaStamp = 0;
-		}
+  FLOG()<<"=====handle_rtmp=======_strRcvBuf SIZE "<< _strRcvBuf.size();
+  while (!_strRcvBuf.empty())
+  {
+	uint8_t flags = _strRcvBuf[0];
+	int iOffset = 0;
+	static const size_t HEADER_LENGTH[] = { 12, 8, 4, 1 };
+	size_t iHeaderLen = HEADER_LENGTH[flags >> 6];
+	_iNowChunkID = flags & 0x3f;
+	if (_iNowChunkID > 10) {
+	  int i = 0;
+	  i++;
 	}
+	switch (_iNowChunkID) {
+	case 0: {
+	  //0 值表示二字节形式，并且 ID 范围 64 - 319
+	  //(第二个字节 + 64)。
+	  if (_strRcvBuf.size() < 2) {
+		//need more data
+		FLOG() << "need more data 2";
+		return;
+	  }
+	  _iNowChunkID = 64 + (uint8_t)(_strRcvBuf[1]);
+	  iOffset = 1;
+	}
+			break;
+	case 1: {
+	  //1 值表示三字节形式，并且 ID 范围为 64 - 65599
+	  //((第三个字节) * 256 + 第二个字节 + 64)。
+	  if (_strRcvBuf.size() < 3) {
+		//need more data
+		FLOG() << "need more data 3";
+		return;
+	  }
+	  _iNowChunkID = 64 + ((uint8_t)(_strRcvBuf[2]) << 8) + (uint8_t)(_strRcvBuf[1]);
+	  iOffset = 2;
+	}
+			break;
+	default:
+	  //带有 2 值的块流 ID 被保留，用于下层协议控制消息和命令。
+	  FLOG() << "带有 2 值的块流 ID 被保留，用于下层协议控制消息和命令";
+	  break;
+	}
+
+	if (_strRcvBuf.size() < iHeaderLen + iOffset) {
+	  //need more data
+	  FLOG() << " need more data ==1";
+	  return;
+	}
+	RtmpHeader& header = *((RtmpHeader*)(_strRcvBuf.data() + iOffset));
+	auto& chunkData = _mapChunkData[_iNowChunkID];
+	chunkData.chunkId = _iNowChunkID;
+	switch (iHeaderLen) {
+	case 12:
+	  chunkData.hasAbsStamp = true;
+	  chunkData.streamId = load_le32(header.streamId);
+	case 8:
+	  chunkData.bodySize = load_be24(header.bodySize);
+	  chunkData.typeId = header.typeId;
+	case 4:
+	  chunkData.deltaStamp = load_be24(header.timeStamp);
+	  chunkData.hasExtStamp = chunkData.deltaStamp == 0xFFFFFF;
+	}
+
+	if (chunkData.hasExtStamp) {
+	  if (_strRcvBuf.size() < iHeaderLen + iOffset + 4) {
+		//need more data
+		FLOG() << " need more data ==2";
+		return;
+	  }
+	  chunkData.deltaStamp = load_be32(_strRcvBuf.data() + iOffset + iHeaderLen);
+	  iOffset += 4;
+	}
+
+	if (chunkData.bodySize < chunkData.strBuf.size()) {
+	  throw std::runtime_error("非法的bodySize");
+	}
+
+	auto iMore = min(_iChunkLenIn, chunkData.bodySize - chunkData.strBuf.size());
+	if (_strRcvBuf.size() < iHeaderLen + iOffset + iMore) {
+	  //need more data
+	  FLOG() << " need more data ==3";
+	  return;
+	}
+
+	chunkData.strBuf.append(_strRcvBuf, iHeaderLen + iOffset, iMore);
+	_strRcvBuf.erase(0, iHeaderLen + iOffset + iMore);
+
+	if (chunkData.strBuf.size() == chunkData.bodySize)
+	{
+	  //frame is ready
+	  _iNowStreamID = chunkData.streamId;
+	  chunkData.timeStamp = chunkData.deltaStamp + (chunkData.hasAbsStamp ? 0 : chunkData.timeStamp);
+
+	  if (chunkData.bodySize)
+	  {
+		handle_rtmpChunk(chunkData);
+	  }
+	  chunkData.strBuf.clear();
+	  chunkData.hasAbsStamp = false;
+	  chunkData.hasExtStamp = false;
+	  chunkData.deltaStamp = 0;
+	}
+	else
+	{
+	  FLOG() << "!!!! chunkData.strBuf.size() " << chunkData.strBuf.size() << " ！= chunkData.bodySize " << chunkData.bodySize;
+	}
+
+  }
+  FLOG() << "END OF handle_rtmp ";
 }
 
 void RtmpProtocol::handle_rtmpChunk(RtmpPacket& chunkData) {
-  FLOG()<<"handle_rtmpChunk RtmpPacket TYPEID :"<< chunkData.typeId;
+  FLOG()<<"handle_rtmpChunk RtmpPacket TYPEID :"<< std::to_string(chunkData.typeId);
 	switch (chunkData.typeId) {
 		case MSG_ACK: {
 			if (chunkData.strBuf.size() < 4) {
